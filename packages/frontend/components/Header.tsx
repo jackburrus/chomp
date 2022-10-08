@@ -7,9 +7,9 @@ export default function Header() {
 			className="flex flex-row mt-5  pb-4 items-center border-b border-gray-300 mx-10"
 			// style={{ padding: '1rem' }}
 		>
-			<div className="flex flex-1 ">
+			<div className="flex font-SFPro_Rounded_Bold text-lg flex-1 ">
 				<Link href={'/'}>
-					Logo
+					CHOMP
 					{/* <img className="w-20 cursor-pointer" src="/SelloutLogo.png" /> */}
 				</Link>
 			</div>

@@ -47,7 +47,7 @@
           ]
         },
         "Vendor": {
-          "address": "0x9A676e781A523b5d0C0e43731313A708CB607508",
+          "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed",
           "abi": [
             {
               "inputs": [
@@ -115,6 +115,19 @@
                 }
               ],
               "name": "addProduct",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_id",
+                  "type": "uint256"
+                }
+              ],
+              "name": "addProductToCart",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -201,6 +214,32 @@
             },
             {
               "inputs": [],
+              "name": "getProductsInCart",
+              "outputs": [
+                {
+                  "internalType": "uint256[]",
+                  "name": "",
+                  "type": "uint256[]"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "getTotalPrice",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "getVendorName",
               "outputs": [
                 {
@@ -260,6 +299,45 @@
               "type": "function"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_id",
+                  "type": "uint256"
+                }
+              ],
+              "name": "removeProductFromCart",
+              "outputs": [],
+              "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "shoppingCart",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "id",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_amount",
+                  "type": "uint256"
+                }
+              ],
+              "name": "submitPaymentForShoppingCart",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
               "inputs": [],
               "name": "vendor_name",
               "outputs": [
@@ -275,7 +353,7 @@
           ]
         },
         "VendorFactory": {
-          "address": "0x0DCd1Bf9A1b36cE34237eEaFef220932846BCD82",
+          "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
           "abi": [
             {
               "anonymous": false,

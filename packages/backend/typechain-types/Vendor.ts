@@ -9,6 +9,7 @@ import type {
   CallOverrides,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -46,26 +47,38 @@ export declare namespace Vendor {
 export interface VendorInterface extends utils.Interface {
   functions: {
     "addProduct(string,uint256,uint256)": FunctionFragment;
+    "addProductToCart(uint256)": FunctionFragment;
     "deployer()": FunctionFragment;
     "getOwner()": FunctionFragment;
     "getPrice(uint256)": FunctionFragment;
     "getProducts()": FunctionFragment;
+    "getProductsInCart()": FunctionFragment;
+    "getTotalPrice()": FunctionFragment;
     "getVendorName()": FunctionFragment;
     "owner()": FunctionFragment;
     "products(uint256)": FunctionFragment;
+    "removeProductFromCart(uint256)": FunctionFragment;
+    "shoppingCart()": FunctionFragment;
+    "submitPaymentForShoppingCart(uint256)": FunctionFragment;
     "vendor_name()": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "addProduct"
+      | "addProductToCart"
       | "deployer"
       | "getOwner"
       | "getPrice"
       | "getProducts"
+      | "getProductsInCart"
+      | "getTotalPrice"
       | "getVendorName"
       | "owner"
       | "products"
+      | "removeProductFromCart"
+      | "shoppingCart"
+      | "submitPaymentForShoppingCart"
       | "vendor_name"
   ): FunctionFragment;
 
@@ -76,6 +89,10 @@ export interface VendorInterface extends utils.Interface {
       PromiseOrValue<BigNumberish>,
       PromiseOrValue<BigNumberish>
     ]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "addProductToCart",
+    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(functionFragment: "deployer", values?: undefined): string;
   encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
@@ -88,6 +105,14 @@ export interface VendorInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
+    functionFragment: "getProductsInCart",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getTotalPrice",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "getVendorName",
     values?: undefined
   ): string;
@@ -97,11 +122,27 @@ export interface VendorInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
+    functionFragment: "removeProductFromCart",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "shoppingCart",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "submitPaymentForShoppingCart",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "vendor_name",
     values?: undefined
   ): string;
 
   decodeFunctionResult(functionFragment: "addProduct", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "addProductToCart",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "deployer", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "getPrice", data: BytesLike): Result;
@@ -110,11 +151,31 @@ export interface VendorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "getProductsInCart",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getTotalPrice",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getVendorName",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "products", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "removeProductFromCart",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "shoppingCart",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "submitPaymentForShoppingCart",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "vendor_name",
     data: BytesLike
@@ -174,6 +235,11 @@ export interface Vendor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    addProductToCart(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     deployer(overrides?: CallOverrides): Promise<[string]>;
 
     getOwner(overrides?: CallOverrides): Promise<[string]>;
@@ -186,6 +252,10 @@ export interface Vendor extends BaseContract {
     getProducts(
       overrides?: CallOverrides
     ): Promise<[Vendor.ProductStructOutput[]]>;
+
+    getProductsInCart(overrides?: CallOverrides): Promise<[BigNumber[]]>;
+
+    getTotalPrice(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     getVendorName(overrides?: CallOverrides): Promise<[string]>;
 
@@ -203,6 +273,20 @@ export interface Vendor extends BaseContract {
       }
     >;
 
+    removeProductFromCart(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    shoppingCart(
+      overrides?: CallOverrides
+    ): Promise<[BigNumber] & { id: BigNumber }>;
+
+    submitPaymentForShoppingCart(
+      _amount: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     vendor_name(overrides?: CallOverrides): Promise<[string]>;
   };
 
@@ -210,6 +294,11 @@ export interface Vendor extends BaseContract {
     _name: PromiseOrValue<string>,
     _price: PromiseOrValue<BigNumberish>,
     _quantity: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  addProductToCart(
+    _id: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -223,6 +312,10 @@ export interface Vendor extends BaseContract {
   ): Promise<BigNumber>;
 
   getProducts(overrides?: CallOverrides): Promise<Vendor.ProductStructOutput[]>;
+
+  getProductsInCart(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+  getTotalPrice(overrides?: CallOverrides): Promise<BigNumber>;
 
   getVendorName(overrides?: CallOverrides): Promise<string>;
 
@@ -240,6 +333,18 @@ export interface Vendor extends BaseContract {
     }
   >;
 
+  removeProductFromCart(
+    _id: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
+
+  submitPaymentForShoppingCart(
+    _amount: PromiseOrValue<BigNumberish>,
+    overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
   vendor_name(overrides?: CallOverrides): Promise<string>;
 
   callStatic: {
@@ -247,6 +352,11 @@ export interface Vendor extends BaseContract {
       _name: PromiseOrValue<string>,
       _price: PromiseOrValue<BigNumberish>,
       _quantity: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    addProductToCart(
+      _id: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -263,6 +373,10 @@ export interface Vendor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<Vendor.ProductStructOutput[]>;
 
+    getProductsInCart(overrides?: CallOverrides): Promise<BigNumber[]>;
+
+    getTotalPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
     getVendorName(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
@@ -278,6 +392,18 @@ export interface Vendor extends BaseContract {
         id: BigNumber;
       }
     >;
+
+    removeProductFromCart(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
+
+    shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
+
+    submitPaymentForShoppingCart(
+      _amount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     vendor_name(overrides?: CallOverrides): Promise<string>;
   };
@@ -305,6 +431,11 @@ export interface Vendor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    addProductToCart(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
     deployer(overrides?: CallOverrides): Promise<BigNumber>;
 
     getOwner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -316,6 +447,10 @@ export interface Vendor extends BaseContract {
 
     getProducts(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getProductsInCart(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getTotalPrice(overrides?: CallOverrides): Promise<BigNumber>;
+
     getVendorName(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -323,6 +458,18 @@ export interface Vendor extends BaseContract {
     products(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    removeProductFromCart(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
+
+    submitPaymentForShoppingCart(
+      _amount: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     vendor_name(overrides?: CallOverrides): Promise<BigNumber>;
@@ -333,6 +480,11 @@ export interface Vendor extends BaseContract {
       _name: PromiseOrValue<string>,
       _price: PromiseOrValue<BigNumberish>,
       _quantity: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    addProductToCart(
+      _id: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -347,6 +499,10 @@ export interface Vendor extends BaseContract {
 
     getProducts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getProductsInCart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getTotalPrice(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     getVendorName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -354,6 +510,18 @@ export interface Vendor extends BaseContract {
     products(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    removeProductFromCart(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    shoppingCart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    submitPaymentForShoppingCart(
+      _amount: PromiseOrValue<BigNumberish>,
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     vendor_name(overrides?: CallOverrides): Promise<PopulatedTransaction>;

@@ -38,12 +38,12 @@ export default function ShopPage({ contract }: { contract: string }) {
 	return (
 		<>
 			<Header />
-			<div className="flex flex-col border  items-center justify-center pt-10 font-SFPro_Rounded_Bold">
+			<div className="flex flex-col   items-center justify-center pt-10 font-SFPro_Rounded_Bold">
 				<div className="w-full items-center justify-center flex flex-col ">
 					<h1 className="text-4xl">{vendorName}</h1>
-					<div className="grid grid-cols-4">
+					<div className="grid grid-cols-4 gap-8 mt-10">
 						{products?.map((product, index) => {
-							return <ProductCard key={index} />;
+							return <ProductCard key={index} contract={contract} product={product} />;
 						})}
 					</div>
 					{/* <div>
