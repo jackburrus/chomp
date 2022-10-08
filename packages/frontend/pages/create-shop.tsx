@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import { NETWORK_ID } from '@/config';
 import { useContract, useSigner, useAccount } from 'wagmi';
 import contracts from '@/contracts/hardhat_contracts.json';
+import { VendorFactory } from '../../backend/typechain-types/VendorFactory';
 
 export default function CreateShop() {
 	const chainId = Number(NETWORK_ID);
@@ -10,16 +11,18 @@ export default function CreateShop() {
 	const allContracts = contracts as any;
 	const vendorFactoryAddress = allContracts[chainId][0].contracts.VendorFactory.address;
 	const vendorFactoryABI = allContracts[chainId][0].contracts.VendorFactory.abi;
-	const vendorFactoryContract = useContract({
+	const vendorFactoryContract = useContract<VendorFactory>({
 		addressOrName: vendorFactoryAddress,
 		contractInterface: vendorFactoryABI,
 		signerOrProvider: signerData,
 	});
 
 	const handleCreateVendor = async () => {
-		const tx = await vendorFactoryContract.createVendor(address, '50000');
-		const res = await tx.wait();
-		console.log(res);
+		if (address) {
+			const tx = await vendorFactoryContract.createVendor(address, '5000');
+			const res = await tx.wait();
+			console.log(res);
+		}
 	};
 
 	const handleFetchShops = async () => {
