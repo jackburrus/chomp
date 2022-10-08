@@ -4,8 +4,11 @@
 import type {
   BaseContract,
   BigNumber,
+  BigNumberish,
   BytesLike,
   CallOverrides,
+  ContractTransaction,
+  Overrides,
   PopulatedTransaction,
   Signer,
   utils,
@@ -20,27 +23,88 @@ import type {
   PromiseOrValue,
 } from "./common";
 
+export declare namespace Vendor {
+  export type ProductStruct = {
+    name: PromiseOrValue<string>;
+    price: PromiseOrValue<BigNumberish>;
+    quantity: PromiseOrValue<BigNumberish>;
+    id: PromiseOrValue<BigNumberish>;
+  };
+
+  export type ProductStructOutput = [
+    string,
+    BigNumber,
+    BigNumber,
+    BigNumber
+  ] & { name: string; price: BigNumber; quantity: BigNumber; id: BigNumber };
+}
+
 export interface VendorInterface extends utils.Interface {
   functions: {
-    "bank_funds()": FunctionFragment;
+    "addProduct(string,uint256,uint256)": FunctionFragment;
     "deployer()": FunctionFragment;
+    "getOwner()": FunctionFragment;
+    "getPrice(uint256)": FunctionFragment;
+    "getProducts()": FunctionFragment;
     "owner()": FunctionFragment;
+    "products(uint256)": FunctionFragment;
+    "vendor_name()": FunctionFragment;
   };
 
   getFunction(
-    nameOrSignatureOrTopic: "bank_funds" | "deployer" | "owner"
+    nameOrSignatureOrTopic:
+      | "addProduct"
+      | "deployer"
+      | "getOwner"
+      | "getPrice"
+      | "getProducts"
+      | "owner"
+      | "products"
+      | "vendor_name"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "bank_funds",
-    values?: undefined
+    functionFragment: "addProduct",
+    values: [
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(functionFragment: "deployer", values?: undefined): string;
+  encodeFunctionData(functionFragment: "getOwner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "getPrice",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getProducts",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
+  encodeFunctionData(
+    functionFragment: "products",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "vendor_name",
+    values?: undefined
+  ): string;
 
-  decodeFunctionResult(functionFragment: "bank_funds", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addProduct", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "deployer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getOwner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPrice", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getProducts",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "products", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "vendor_name",
+    data: BytesLike
+  ): Result;
 
   events: {};
 }
@@ -72,42 +136,172 @@ export interface Vendor extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    bank_funds(overrides?: CallOverrides): Promise<[BigNumber]>;
+    addProduct(
+      _name: PromiseOrValue<string>,
+      _price: PromiseOrValue<BigNumberish>,
+      _quantity: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     deployer(overrides?: CallOverrides): Promise<[string]>;
 
+    getOwner(overrides?: CallOverrides): Promise<[string]>;
+
+    getPrice(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[BigNumber]>;
+
+    getProducts(
+      overrides?: CallOverrides
+    ): Promise<[Vendor.ProductStructOutput[]]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
+
+    products(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, BigNumber] & {
+        name: string;
+        price: BigNumber;
+        quantity: BigNumber;
+        id: BigNumber;
+      }
+    >;
+
+    vendor_name(overrides?: CallOverrides): Promise<[string]>;
   };
 
-  bank_funds(overrides?: CallOverrides): Promise<BigNumber>;
+  addProduct(
+    _name: PromiseOrValue<string>,
+    _price: PromiseOrValue<BigNumberish>,
+    _quantity: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   deployer(overrides?: CallOverrides): Promise<string>;
 
+  getOwner(overrides?: CallOverrides): Promise<string>;
+
+  getPrice(
+    _id: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<BigNumber>;
+
+  getProducts(overrides?: CallOverrides): Promise<Vendor.ProductStructOutput[]>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
+  products(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<
+    [string, BigNumber, BigNumber, BigNumber] & {
+      name: string;
+      price: BigNumber;
+      quantity: BigNumber;
+      id: BigNumber;
+    }
+  >;
+
+  vendor_name(overrides?: CallOverrides): Promise<string>;
+
   callStatic: {
-    bank_funds(overrides?: CallOverrides): Promise<BigNumber>;
+    addProduct(
+      _name: PromiseOrValue<string>,
+      _price: PromiseOrValue<BigNumberish>,
+      _quantity: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     deployer(overrides?: CallOverrides): Promise<string>;
 
+    getOwner(overrides?: CallOverrides): Promise<string>;
+
+    getPrice(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getProducts(
+      overrides?: CallOverrides
+    ): Promise<Vendor.ProductStructOutput[]>;
+
     owner(overrides?: CallOverrides): Promise<string>;
+
+    products(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<
+      [string, BigNumber, BigNumber, BigNumber] & {
+        name: string;
+        price: BigNumber;
+        quantity: BigNumber;
+        id: BigNumber;
+      }
+    >;
+
+    vendor_name(overrides?: CallOverrides): Promise<string>;
   };
 
   filters: {};
 
   estimateGas: {
-    bank_funds(overrides?: CallOverrides): Promise<BigNumber>;
+    addProduct(
+      _name: PromiseOrValue<string>,
+      _price: PromiseOrValue<BigNumberish>,
+      _quantity: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
 
     deployer(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getOwner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    getPrice(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getProducts(overrides?: CallOverrides): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
+
+    products(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    vendor_name(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    bank_funds(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+    addProduct(
+      _name: PromiseOrValue<string>,
+      _price: PromiseOrValue<BigNumberish>,
+      _quantity: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
 
     deployer(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
+    getOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getPrice(
+      _id: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getProducts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    products(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    vendor_name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

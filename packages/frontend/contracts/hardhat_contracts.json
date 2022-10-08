@@ -47,7 +47,7 @@
           ]
         },
         "Vendor": {
-          "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+          "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
           "abi": [
             {
               "inputs": [
@@ -57,25 +57,35 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "uint256",
-                  "name": "_funds",
-                  "type": "uint256"
+                  "internalType": "string",
+                  "name": "_vendorName",
+                  "type": "string"
                 }
               ],
               "stateMutability": "nonpayable",
               "type": "constructor"
             },
             {
-              "inputs": [],
-              "name": "bank_funds",
-              "outputs": [
+              "inputs": [
+                {
+                  "internalType": "string",
+                  "name": "_name",
+                  "type": "string"
+                },
                 {
                   "internalType": "uint256",
-                  "name": "",
+                  "name": "_price",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "_quantity",
                   "type": "uint256"
                 }
               ],
-              "stateMutability": "view",
+              "name": "addProduct",
+              "outputs": [],
+              "stateMutability": "nonpayable",
               "type": "function"
             },
             {
@@ -93,6 +103,73 @@
             },
             {
               "inputs": [],
+              "name": "getOwner",
+              "outputs": [
+                {
+                  "internalType": "address",
+                  "name": "",
+                  "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_id",
+                  "type": "uint256"
+                }
+              ],
+              "name": "getPrice",
+              "outputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "getProducts",
+              "outputs": [
+                {
+                  "components": [
+                    {
+                      "internalType": "string",
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "price",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "quantity",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "id",
+                      "type": "uint256"
+                    }
+                  ],
+                  "internalType": "struct Vendor.Product[]",
+                  "name": "",
+                  "type": "tuple[]"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "owner",
               "outputs": [
                 {
@@ -103,11 +180,58 @@
               ],
               "stateMutability": "view",
               "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "",
+                  "type": "uint256"
+                }
+              ],
+              "name": "products",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "price",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "quantity",
+                  "type": "uint256"
+                },
+                {
+                  "internalType": "uint256",
+                  "name": "id",
+                  "type": "uint256"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "vendor_name",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
             }
           ]
         },
         "VendorFactory": {
-          "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+          "address": "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
           "abi": [
             {
               "inputs": [
@@ -117,9 +241,9 @@
                   "type": "address"
                 },
                 {
-                  "internalType": "uint256",
-                  "name": "_funds",
-                  "type": "uint256"
+                  "internalType": "string",
+                  "name": "_vendorName",
+                  "type": "string"
                 }
               ],
               "name": "createVendor",

@@ -25,7 +25,7 @@ import type {
 
 export interface VendorFactoryInterface extends utils.Interface {
   functions: {
-    "createVendor(address,uint256)": FunctionFragment;
+    "createVendor(address,string)": FunctionFragment;
     "getVendors()": FunctionFragment;
     "list_of_vendors(uint256)": FunctionFragment;
   };
@@ -36,7 +36,7 @@ export interface VendorFactoryInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "createVendor",
-    values: [PromiseOrValue<string>, PromiseOrValue<BigNumberish>]
+    values: [PromiseOrValue<string>, PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "getVendors",
@@ -89,7 +89,7 @@ export interface VendorFactory extends BaseContract {
   functions: {
     createVendor(
       _owner: PromiseOrValue<string>,
-      _funds: PromiseOrValue<BigNumberish>,
+      _vendorName: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -103,7 +103,7 @@ export interface VendorFactory extends BaseContract {
 
   createVendor(
     _owner: PromiseOrValue<string>,
-    _funds: PromiseOrValue<BigNumberish>,
+    _vendorName: PromiseOrValue<string>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -117,7 +117,7 @@ export interface VendorFactory extends BaseContract {
   callStatic: {
     createVendor(
       _owner: PromiseOrValue<string>,
-      _funds: PromiseOrValue<BigNumberish>,
+      _vendorName: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -134,7 +134,7 @@ export interface VendorFactory extends BaseContract {
   estimateGas: {
     createVendor(
       _owner: PromiseOrValue<string>,
-      _funds: PromiseOrValue<BigNumberish>,
+      _vendorName: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -149,7 +149,7 @@ export interface VendorFactory extends BaseContract {
   populateTransaction: {
     createVendor(
       _owner: PromiseOrValue<string>,
-      _funds: PromiseOrValue<BigNumberish>,
+      _vendorName: PromiseOrValue<string>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

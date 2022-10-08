@@ -19,7 +19,7 @@ export default function CreateShop() {
 
 	const handleCreateVendor = async () => {
 		if (address) {
-			const tx = await vendorFactoryContract.createVendor(address, '5000');
+			const tx = await vendorFactoryContract.createVendor(address, "Jack's Bagel Shop");
 			const res = await tx.wait();
 			console.log(res);
 		}

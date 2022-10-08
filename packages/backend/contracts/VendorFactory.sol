@@ -8,8 +8,8 @@ contract VendorFactory {
   Vendor[] public list_of_vendors;
 
   // function arguments are passed to the constructor of the new created contract
-  function createVendor(address _owner, uint256 _funds) external {
-    vendor = new Vendor(_owner, _funds);
+  function createVendor(address _owner, string memory _vendorName) external {
+    vendor = new Vendor(_owner, _vendorName);
     list_of_vendors.push(vendor);
   }
 
