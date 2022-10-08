@@ -13,7 +13,11 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -116,8 +120,25 @@ export interface VendorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {};
+  events: {
+    "ProductAdded(string,uint256,uint256,uint256)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "ProductAdded"): EventFragment;
 }
+
+export interface ProductAddedEventObject {
+  name: string;
+  price: BigNumber;
+  quantity: BigNumber;
+  id: BigNumber;
+}
+export type ProductAddedEvent = TypedEvent<
+  [string, BigNumber, BigNumber, BigNumber],
+  ProductAddedEventObject
+>;
+
+export type ProductAddedEventFilter = TypedEventFilter<ProductAddedEvent>;
 
 export interface Vendor extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -261,7 +282,20 @@ export interface Vendor extends BaseContract {
     vendor_name(overrides?: CallOverrides): Promise<string>;
   };
 
-  filters: {};
+  filters: {
+    "ProductAdded(string,uint256,uint256,uint256)"(
+      name?: null,
+      price?: null,
+      quantity?: null,
+      id?: null
+    ): ProductAddedEventFilter;
+    ProductAdded(
+      name?: null,
+      price?: null,
+      quantity?: null,
+      id?: null
+    ): ProductAddedEventFilter;
+  };
 
   estimateGas: {
     addProduct(

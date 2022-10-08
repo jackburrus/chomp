@@ -15,11 +15,20 @@ contract Vendor {
 
   mapping(uint => Product) public products;
 
+  event ProductAdded(
+    string name,
+    uint price,
+    uint quantity,
+    uint id
+  );
+
 
   //create a function that adds a product to the list of products
   function addProduct(string memory _name, uint _price, uint _quantity) public {
     totalProducts++;
     products[totalProducts] = Product(_name, _price, _quantity, totalProducts);
+
+    emit ProductAdded(_name, _price, _quantity, totalProducts);
   }
 
   //create a function that returns the price of a product

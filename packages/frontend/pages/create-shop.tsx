@@ -8,6 +8,19 @@ import { useState } from 'react';
 import CreateShopName from '@/components/createshop/CreateShopName';
 import { useRouter } from 'next/router';
 
+export const generateStepPercentage = (step: number) => {
+	switch (step) {
+		case 0:
+			return '33%';
+		case 1:
+			return '66%';
+		case 2:
+			return '100%';
+		default:
+			return '0%';
+	}
+};
+
 export default function CreateShop() {
 	const chainId = Number(NETWORK_ID);
 	const { data: signerData } = useSigner();
@@ -48,19 +61,6 @@ export default function CreateShop() {
 	const handleFetchShops = async () => {
 		const shops = await vendorFactoryContract.getVendors();
 		console.log(shops);
-	};
-
-	const generateStepPercentage = (step: number) => {
-		switch (step) {
-			case 0:
-				return '33%';
-			case 1:
-				return '66%';
-			case 2:
-				return '100%';
-			default:
-				return '0%';
-		}
 	};
 
 	// const handleGetShopName = async () => {
