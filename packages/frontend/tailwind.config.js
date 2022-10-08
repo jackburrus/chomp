@@ -1,3 +1,10 @@
+const colors = require('tailwindcss/colors');
+delete colors['lightBlue'];
+delete colors['warmGray'];
+delete colors['trueGray'];
+delete colors['coolGray'];
+delete colors['blueGray'];
+
 module.exports = {
 	content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
 	theme: {
@@ -7,6 +14,7 @@ module.exports = {
 			SFPro_Rounded_Bold: ['SFRounded-Bold'],
 		},
 		colors: {
+			...colors,
 			coreblue: '#E9EFF9',
 			corepurple: '#535A86',
 			darkpurple: '#635777',

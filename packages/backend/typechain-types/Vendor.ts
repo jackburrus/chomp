@@ -46,6 +46,7 @@ export interface VendorInterface extends utils.Interface {
     "getOwner()": FunctionFragment;
     "getPrice(uint256)": FunctionFragment;
     "getProducts()": FunctionFragment;
+    "getVendorName()": FunctionFragment;
     "owner()": FunctionFragment;
     "products(uint256)": FunctionFragment;
     "vendor_name()": FunctionFragment;
@@ -58,6 +59,7 @@ export interface VendorInterface extends utils.Interface {
       | "getOwner"
       | "getPrice"
       | "getProducts"
+      | "getVendorName"
       | "owner"
       | "products"
       | "vendor_name"
@@ -81,6 +83,10 @@ export interface VendorInterface extends utils.Interface {
     functionFragment: "getProducts",
     values?: undefined
   ): string;
+  encodeFunctionData(
+    functionFragment: "getVendorName",
+    values?: undefined
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "products",
@@ -97,6 +103,10 @@ export interface VendorInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "getPrice", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getProducts",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getVendorName",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
@@ -156,6 +166,8 @@ export interface Vendor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[Vendor.ProductStructOutput[]]>;
 
+    getVendorName(overrides?: CallOverrides): Promise<[string]>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     products(
@@ -190,6 +202,8 @@ export interface Vendor extends BaseContract {
   ): Promise<BigNumber>;
 
   getProducts(overrides?: CallOverrides): Promise<Vendor.ProductStructOutput[]>;
+
+  getVendorName(overrides?: CallOverrides): Promise<string>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
@@ -227,6 +241,8 @@ export interface Vendor extends BaseContract {
     getProducts(
       overrides?: CallOverrides
     ): Promise<Vendor.ProductStructOutput[]>;
+
+    getVendorName(overrides?: CallOverrides): Promise<string>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
@@ -266,6 +282,8 @@ export interface Vendor extends BaseContract {
 
     getProducts(overrides?: CallOverrides): Promise<BigNumber>;
 
+    getVendorName(overrides?: CallOverrides): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     products(
@@ -294,6 +312,8 @@ export interface Vendor extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     getProducts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    getVendorName(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

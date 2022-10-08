@@ -41,6 +41,11 @@ contract Vendor {
     return owner;
   }
 
+  //function to get vendor name
+  function getVendorName() public view returns (string memory) {
+    return vendor_name;
+  }
+
   constructor(address _owner,  string memory _vendorName) {
     vendor_name = _vendorName;
     owner = _owner;

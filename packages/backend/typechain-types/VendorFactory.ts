@@ -13,7 +13,11 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -57,8 +61,24 @@ export interface VendorFactoryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
 
-  events: {};
+  events: {
+    "VendorCreated(address,address,string)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "VendorCreated"): EventFragment;
 }
+
+export interface VendorCreatedEventObject {
+  vendor_address: string;
+  owner: string;
+  vendor_name: string;
+}
+export type VendorCreatedEvent = TypedEvent<
+  [string, string, string],
+  VendorCreatedEventObject
+>;
+
+export type VendorCreatedEventFilter = TypedEventFilter<VendorCreatedEvent>;
 
 export interface VendorFactory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -129,7 +149,18 @@ export interface VendorFactory extends BaseContract {
     ): Promise<string>;
   };
 
-  filters: {};
+  filters: {
+    "VendorCreated(address,address,string)"(
+      vendor_address?: null,
+      owner?: null,
+      vendor_name?: null
+    ): VendorCreatedEventFilter;
+    VendorCreated(
+      vendor_address?: null,
+      owner?: null,
+      vendor_name?: null
+    ): VendorCreatedEventFilter;
+  };
 
   estimateGas: {
     createVendor(
