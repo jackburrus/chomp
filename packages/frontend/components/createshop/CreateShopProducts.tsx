@@ -1,6 +1,23 @@
 import { Vendor } from '@/../backend/typechain-types/Vendor';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ImageIcon from '../icons/ImageIcon';
+import ImageUploading from 'react-images-uploading';
+import { NFTStorage, File, Blob } from 'nft.storage';
+
+const NFT_STORAGE_TOKEN = 'your-api-token';
+const client = new NFTStorage({ token: process.env.NFT_STORAGE_TOKEN });
+
+function dataURLtoBlob(dataurl) {
+	const arr = dataurl.split(',');
+	const mime = arr[0].match(/:(.*?);/)[1];
+	const bstr = atob(arr[1]);
+	let n = bstr.length;
+	const u8arr = new Uint8Array(n);
+	while (n--) {
+		u8arr[n] = bstr.charCodeAt(n);
+	}
+	return new Blob([u8arr], { type: mime });
+}
 
 export default function CreateShopProducts({
 	contract,
@@ -11,6 +28,32 @@ export default function CreateShopProducts({
 	vendorContract: Vendor;
 	setCreateShopStep: () => void;
 }) {
+	const [images, setImages] = useState([]);
+	const [imageIpfsHash, setImageIpfsHash] = useState('');
+	const maxNumber = 69;
+
+	const handleUploadImage = async () => {
+		//store the image to ipfs and return cid
+
+		const image = dataURLtoBlob(images[0].data_url);
+		const imageCID = await client.storeBlob(image);
+		console.log(imageCID);
+		// const cid = await client.storeBlob(file);
+		// console.log(cid, 'cid');
+		// setImageIpfsHash(cid);
+	};
+
+	useEffect(() => {
+		if (images.length > 0) {
+			handleUploadImage();
+		}
+	}, [images]);
+
+	const onChange = (imageList, addUpdateIndex) => {
+		// data for submit
+		console.log(imageList, addUpdateIndex);
+		setImages(imageList);
+	};
 	const [productName, setProductName] = useState('');
 	const [productPrice, setProductPrice] = useState('');
 	const [products, setProducts] = useState<{ productName: string; productPrice: string }[]>([]);
@@ -78,9 +121,45 @@ export default function CreateShopProducts({
 							onChange={(e) => setProductPrice(e.target.value)}
 							placeholder="Price"
 						/>
-						<button className=" ml-4 rounded-md flex items-center justify-center h-10 w-14 bg-[#DFE6F4]">
-							<ImageIcon />
-						</button>
+						<div className="flex flex-end  justify-end">
+							<ImageUploading multiple value={images} onChange={onChange} maxNumber={maxNumber} dataURLKey="data_url">
+								{({
+									imageList,
+									onImageUpload,
+									onImageRemoveAll,
+									onImageUpdate,
+									onImageRemove,
+									isDragging,
+									dragProps,
+								}) => (
+									// write your building UI
+									<div className="upload__image-wrapper flex flex-end">
+										<button
+											onClick={onImageUpload}
+											{...dragProps}
+											className=" ml-4 rounded-md flex items-center justify-center h-10 w-14 bg-[#DFE6F4]"
+										>
+											{!imageList.length ? (
+												<ImageIcon />
+											) : (
+												<div>
+													<img src={imageList[0]['data_url']} alt="" className="w-10 h-10 rounded-md" />
+												</div>
+											)}
+										</button>
+
+										{imageList.length > 0 && (
+											<div className=" flex items-center">
+												<button className=" ml-2 mr-2" onClick={() => onImageUpdate(0)}>
+													Update
+												</button>
+												<button onClick={() => onImageRemove(0)}>Remove</button>
+											</div>
+										)}
+									</div>
+								)}
+							</ImageUploading>
+						</div>
 					</div>
 				</div>
 				<div className="flex flex-row">
