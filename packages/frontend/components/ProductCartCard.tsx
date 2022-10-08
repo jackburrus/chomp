@@ -30,7 +30,11 @@ export default function ProductCartCard({ contract, product }: { contract: strin
 	return (
 		<div className="h-16 mb-5 pl-4 items-center justify-between pr-4 rounded-md bg-white w-full flex flex-row">
 			<div className="flex flex-row items-center">
-				<div className="h-14 w-14 border flex items-center justify-center p-4 rounded-md mr-4">Image</div>
+				<img
+					src={productFromCart?.image}
+					alt=""
+					className="h-14 w-14 border flex items-center justify-center  rounded-md mr-4"
+				/>
 				<div className="flex flex-col">
 					<h3>{productFromCart?.name}</h3>
 					<span className="text-sm">${productFromCart?.price.toString()}</span>

@@ -39,9 +39,15 @@ export default function ShopPage({ contract }: { contract: string }) {
 		functionName: 'getProductsInCart',
 	});
 
+	const { data: totalPrice } = useContractRead({
+		addressOrName: contract,
+		contractInterface: vendorABI,
+		functionName: 'getTotalPrice',
+	});
+
 	useEffect(() => {
-		console.log(productsInCart);
-	}, [productsInCart]);
+		console.log(totalPrice);
+	}, [totalPrice]);
 
 	return (
 		<div className="relative justify-center">
@@ -62,6 +68,7 @@ export default function ShopPage({ contract }: { contract: string }) {
 							return <ProductCartCard key={index} contract={contract} product={product} />;
 						})}
 					</div>
+					<div>{totalPrice?.toString()}</div>
 				</div>
 			)}
 

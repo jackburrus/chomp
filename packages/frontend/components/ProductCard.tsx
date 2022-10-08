@@ -37,10 +37,12 @@ export default function ProductCard({ product, contract }) {
 		<button
 			disabled={!write}
 			onClick={() => write?.()}
-			className={`h-36 cursor-pointer text-center shadow-md bg-white flex flex-col justify-center items-center w-36  rounded-lg ${
+			className={`h-48 cursor-pointer text-center shadow-md bg-white flex flex-col justify-center items-center w-48  rounded-lg ${
 				isInCart && 'border border-orange-500'
 			}`}
 		>
+			<img src={product[2]} className="w-16 h-16 rounded-md mb-2" />
+
 			<h1 className="max-w-[70%]">{product[0]}</h1>
 			<h3 className="mt-2">${product[1].toString()}</h3>
 		</button>
