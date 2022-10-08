@@ -1,0 +1,135 @@
+{
+  "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_owner",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_funds",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [],
+      "name": "bank_funds",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "deployer",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x7c4e41bfa2b10737f8545803564d39ba9bebac9b62b8dc9df5a501c87ccc572b",
+  "receipt": {
+    "to": null,
+    "from": "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266",
+    "contractAddress": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "transactionIndex": 0,
+    "gasUsed": "221806",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x33a5fb9571caacd38997b7e2ef586431c5f508143292a561ac4feace32a88063",
+    "transactionHash": "0x7c4e41bfa2b10737f8545803564d39ba9bebac9b62b8dc9df5a501c87ccc572b",
+    "logs": [],
+    "blockNumber": 5,
+    "cumulativeGasUsed": "221806",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0xE35ef95A80839C3c261197B6c93E5765C9A6a31a",
+    "50000"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "a4db618c7caeab1e02cbbd4d369b2b74",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"_owner\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"_funds\",\"type\":\"uint256\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[],\"name\":\"bank_funds\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"deployer\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Vendor.sol\":\"Vendor\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Vendor.sol\":{\"content\":\"// This is used as a template to initialize state variables\\ncontract Vendor {\\n  uint256 public bank_funds;\\n  address public owner;\\n  address public deployer;\\n\\n  constructor(address _owner, uint256 _funds) {\\n    bank_funds = _funds;\\n    owner = _owner;\\n    deployer = msg.sender;\\n  }\\n}\",\"keccak256\":\"0x282451fd7e8a39bc593f1983597ecfd8f1a29eae55a40f1b4b0c46c734fafc7f\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b506040516103623803806103628339818101604052810190610032919061015b565b8060008190555081600160006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff16021790555033600260006101000a81548173ffffffffffffffffffffffffffffffffffffffff021916908373ffffffffffffffffffffffffffffffffffffffff160217905550505061019b565b600080fd5b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b60006100f2826100c7565b9050919050565b610102816100e7565b811461010d57600080fd5b50565b60008151905061011f816100f9565b92915050565b6000819050919050565b61013881610125565b811461014357600080fd5b50565b6000815190506101558161012f565b92915050565b60008060408385031215610172576101716100c2565b5b600061018085828601610110565b925050602061019185828601610146565b9150509250929050565b6101b8806101aa6000396000f3fe608060405234801561001057600080fd5b50600436106100415760003560e01c80638da5cb5b14610046578063d5f3948814610064578063d6b82fe314610082575b600080fd5b61004e6100a0565b60405161005b9190610133565b60405180910390f35b61006c6100c6565b6040516100799190610133565b60405180910390f35b61008a6100ec565b6040516100979190610167565b60405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60005481565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600061011d826100f2565b9050919050565b61012d81610112565b82525050565b60006020820190506101486000830184610124565b92915050565b6000819050919050565b6101618161014e565b82525050565b600060208201905061017c6000830184610158565b9291505056fea26469706673582212206e98b935e6feb189b8765b96dedb8fa3125ab2c77bfa33b4d84e91ca749c271b64736f6c634300080a0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100415760003560e01c80638da5cb5b14610046578063d5f3948814610064578063d6b82fe314610082575b600080fd5b61004e6100a0565b60405161005b9190610133565b60405180910390f35b61006c6100c6565b6040516100799190610133565b60405180910390f35b61008a6100ec565b6040516100979190610167565b60405180910390f35b600160009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b600260009054906101000a900473ffffffffffffffffffffffffffffffffffffffff1681565b60005481565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b600061011d826100f2565b9050919050565b61012d81610112565b82525050565b60006020820190506101486000830184610124565b92915050565b6000819050919050565b6101618161014e565b82525050565b600060208201905061017c6000830184610158565b9291505056fea26469706673582212206e98b935e6feb189b8765b96dedb8fa3125ab2c77bfa33b4d84e91ca749c271b64736f6c634300080a0033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 2,
+        "contract": "contracts/Vendor.sol:Vendor",
+        "label": "bank_funds",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 4,
+        "contract": "contracts/Vendor.sol:Vendor",
+        "label": "owner",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_address"
+      },
+      {
+        "astId": 6,
+        "contract": "contracts/Vendor.sol:Vendor",
+        "label": "deployer",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_address"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}

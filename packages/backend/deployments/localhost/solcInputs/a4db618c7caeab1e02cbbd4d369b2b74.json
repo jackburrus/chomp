@@ -1,0 +1,38 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Vendor.sol": {
+      "content": "// This is used as a template to initialize state variables\ncontract Vendor {\n  uint256 public bank_funds;\n  address public owner;\n  address public deployer;\n\n  constructor(address _owner, uint256 _funds) {\n    bank_funds = _funds;\n    owner = _owner;\n    deployer = msg.sender;\n  }\n}"
+    },
+    "contracts/VendorFactory.sol": {
+      "content": "\nimport \"./Vendor.sol\";\n\ncontract VendorFactory {\n  // instantiate Bank contract\n  Vendor vendor;\n  //keep track of created Bank addresses in array\n  Vendor[] public list_of_vendors;\n\n  // function arguments are passed to the constructor of the new created contract\n  function createVendor(address _owner, uint256 _funds) external {\n    vendor = new Vendor(_owner, _funds);\n    list_of_vendors.push(vendor);\n  }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

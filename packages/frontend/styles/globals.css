@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: 'SFRounded';
+    font-display: 'auto';
+    font-weight: 400;
+    src: url('/fonts/subset-SFRounded-Regular.woff2') format('woff2'),
+         url('/fonts/subset-SFRounded-Regular.woff') format('woff');
+  }
+  @font-face {
+    font-family: 'SFRounded-Bold';
+    font-display: 'auto';
+    font-weight: 400;
+    src: url("/fonts/subset-SFRounded-Bold.woff2") format("woff2"),
+         url("/fonts/subset-SFRounded-Bold.woff") format("woff");
+  }
+}
+
 html,
 body {
   padding: 0;
