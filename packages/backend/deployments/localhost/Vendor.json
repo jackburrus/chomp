@@ -242,8 +242,6 @@
     "byzantium": true
   },
   "args": [
-    "0xE35ef95A80839C3c261197B6c93E5765C9A6a31a",
-    "Example Store"
   ],
   "numDeployments": 2,
   "solcInputHash": "d7d632accfb99788decba073be93ae73",

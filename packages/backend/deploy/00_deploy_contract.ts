@@ -19,12 +19,12 @@ const main: DeployFunction = async function ({ getNamedAccounts, deployments }: 
 		log: true,
 	});
 
-	const vendorArgs = ['0xE35ef95A80839C3c261197B6c93E5765C9A6a31a', 'Example Store'];
-	await deploy('Vendor', {
-		args: vendorArgs,
-		from: deployer,
-		log: true,
-	});
+	// const vendorArgs = ['0xE35ef95A80839C3c261197B6c93E5765C9A6a31a', 'Example Store'];
+	// await deploy('Vendor', {
+	// 	args: vendorArgs,
+	// 	from: deployer,
+	// 	log: true,
+	// });
 };
 
 export default main;

@@ -1,7 +1,15 @@
 import { Vendor } from '@/../backend/typechain-types/Vendor';
 import { useState } from 'react';
 
-export default function CreateShopProducts({ contract, vendorContract }: { contract: string; vendorContract: Vendor }) {
+export default function CreateShopProducts({
+	contract,
+	vendorContract,
+	setCreateShopStep,
+}: {
+	contract: string;
+	vendorContract: Vendor;
+	setCreateShopStep: () => void;
+}) {
 	const [productName, setProductName] = useState('');
 	const [productPrice, setProductPrice] = useState('');
 	const [products, setProducts] = useState<{ productName: string; productPrice: string }[]>([]);
@@ -18,6 +26,11 @@ export default function CreateShopProducts({ contract, vendorContract }: { contr
 		}
 	};
 
+	const handleGetShopName = async () => {
+		const shopName = await vendorContract.getVendorName();
+		console.log(shopName);
+	};
+
 	const fetchCurrentProducts = async () => {
 		const products = await vendorContract.getProducts();
 		const convertedProducts = products.map((product) => {
@@ -31,6 +44,10 @@ export default function CreateShopProducts({ contract, vendorContract }: { contr
 		// setProducts(products);
 	};
 
+	const handleFinishCreation = () => {
+		setCreateShopStep(3);
+	};
+
 	return (
 		<>
 			<div className="flex flex-col  items-center justify-center pt-10 font-SFPro_Rounded_Bold">
@@ -39,8 +56,8 @@ export default function CreateShopProducts({ contract, vendorContract }: { contr
 					<div>
 						{products.map((product, index) => (
 							<div key={index} className="flex mt-6 flex-row items-center justify-center">
-								<h1 className="text-2xl">{product.productName}</h1>
-								<h1 className="text-2xl ml-4">{product.productPrice}</h1>
+								<h1 className="text-2xl">{product.productName} -</h1>
+								<h1 className="text-2xl ml-4">${product.productPrice}</h1>
 							</div>
 						))}
 					</div>
@@ -74,6 +91,12 @@ export default function CreateShopProducts({ contract, vendorContract }: { contr
 						onClick={fetchCurrentProducts}
 					>
 						Fetch Current Products
+					</button>
+					<button
+						className="mt-8 ml-2 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:bg-[#DFE6F4] hover:text-black active:opacity-70 md:text-base "
+						onClick={handleFinishCreation}
+					>
+						Finish
 					</button>
 				</div>
 			</div>

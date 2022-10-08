@@ -1,5 +1,6 @@
 import { Vendor } from '@/../backend/typechain-types/Vendor';
 import CreateShopProducts from '@/components/createshop/CreateShopProducts';
+import FinishShopCreation from '@/components/createshop/FinishShopCreation';
 import Header from '@/components/Header';
 import { NETWORK_ID } from '@/config';
 import contracts from '@/contracts/hardhat_contracts.json';
@@ -36,7 +37,11 @@ export default function CreateShop({ contract }: { contract: string }) {
 					></div>
 				</div>
 			</div>
-			<CreateShopProducts contract={contract} vendorContract={vendorContract} />
+			{createShopStep === 1 ? (
+				<CreateShopProducts contract={contract} vendorContract={vendorContract} setCreateShopStep={setCreateShopStep} />
+			) : (
+				<FinishShopCreation contract={contract} />
+			)}
 		</>
 	);
 }

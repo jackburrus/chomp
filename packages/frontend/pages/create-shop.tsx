@@ -17,7 +17,7 @@ export const generateStepPercentage = (step: number) => {
 		case 2:
 			return '100%';
 		default:
-			return '0%';
+			return '100%';
 	}
 };
 
@@ -62,11 +62,6 @@ export default function CreateShop() {
 		const shops = await vendorFactoryContract.getVendors();
 		console.log(shops);
 	};
-
-	// const handleGetShopName = async () => {
-	// 	const shopName = await vendorContract.getVendorName();
-	// 	console.log(shopName);
-	// };
 
 	return (
 		<>
