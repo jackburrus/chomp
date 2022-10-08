@@ -32,6 +32,7 @@ export declare namespace Vendor {
   export type ProductStruct = {
     name: PromiseOrValue<string>;
     price: PromiseOrValue<BigNumberish>;
+    image: PromiseOrValue<string>;
     quantity: PromiseOrValue<BigNumberish>;
     id: PromiseOrValue<BigNumberish>;
   };
@@ -39,14 +40,21 @@ export declare namespace Vendor {
   export type ProductStructOutput = [
     string,
     BigNumber,
+    string,
     BigNumber,
     BigNumber
-  ] & { name: string; price: BigNumber; quantity: BigNumber; id: BigNumber };
+  ] & {
+    name: string;
+    price: BigNumber;
+    image: string;
+    quantity: BigNumber;
+    id: BigNumber;
+  };
 }
 
 export interface VendorInterface extends utils.Interface {
   functions: {
-    "addProduct(string,uint256,uint256)": FunctionFragment;
+    "addProduct(string,uint256,string,uint256)": FunctionFragment;
     "addProductToCart(uint256)": FunctionFragment;
     "deployer()": FunctionFragment;
     "getCartProductFromListOfProducts(uint256)": FunctionFragment;
@@ -89,6 +97,7 @@ export interface VendorInterface extends utils.Interface {
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
       PromiseOrValue<BigNumberish>
     ]
   ): string;
@@ -192,7 +201,7 @@ export interface VendorInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "ProductAdded(string,uint256,uint256,uint256)": EventFragment;
+    "ProductAdded(string,uint256,string,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ProductAdded"): EventFragment;
@@ -201,11 +210,12 @@ export interface VendorInterface extends utils.Interface {
 export interface ProductAddedEventObject {
   name: string;
   price: BigNumber;
+  image: string;
   quantity: BigNumber;
   id: BigNumber;
 }
 export type ProductAddedEvent = TypedEvent<
-  [string, BigNumber, BigNumber, BigNumber],
+  [string, BigNumber, string, BigNumber, BigNumber],
   ProductAddedEventObject
 >;
 
@@ -241,6 +251,7 @@ export interface Vendor extends BaseContract {
     addProduct(
       _name: PromiseOrValue<string>,
       _price: PromiseOrValue<BigNumberish>,
+      _image: PromiseOrValue<string>,
       _quantity: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -280,9 +291,10 @@ export interface Vendor extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, BigNumber] & {
+      [string, BigNumber, string, BigNumber, BigNumber] & {
         name: string;
         price: BigNumber;
+        image: string;
         quantity: BigNumber;
         id: BigNumber;
       }
@@ -308,6 +320,7 @@ export interface Vendor extends BaseContract {
   addProduct(
     _name: PromiseOrValue<string>,
     _price: PromiseOrValue<BigNumberish>,
+    _image: PromiseOrValue<string>,
     _quantity: PromiseOrValue<BigNumberish>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -345,9 +358,10 @@ export interface Vendor extends BaseContract {
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<
-    [string, BigNumber, BigNumber, BigNumber] & {
+    [string, BigNumber, string, BigNumber, BigNumber] & {
       name: string;
       price: BigNumber;
+      image: string;
       quantity: BigNumber;
       id: BigNumber;
     }
@@ -371,6 +385,7 @@ export interface Vendor extends BaseContract {
     addProduct(
       _name: PromiseOrValue<string>,
       _price: PromiseOrValue<BigNumberish>,
+      _image: PromiseOrValue<string>,
       _quantity: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -410,9 +425,10 @@ export interface Vendor extends BaseContract {
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<
-      [string, BigNumber, BigNumber, BigNumber] & {
+      [string, BigNumber, string, BigNumber, BigNumber] & {
         name: string;
         price: BigNumber;
+        image: string;
         quantity: BigNumber;
         id: BigNumber;
       }
@@ -434,15 +450,17 @@ export interface Vendor extends BaseContract {
   };
 
   filters: {
-    "ProductAdded(string,uint256,uint256,uint256)"(
+    "ProductAdded(string,uint256,string,uint256,uint256)"(
       name?: null,
       price?: null,
+      image?: null,
       quantity?: null,
       id?: null
     ): ProductAddedEventFilter;
     ProductAdded(
       name?: null,
       price?: null,
+      image?: null,
       quantity?: null,
       id?: null
     ): ProductAddedEventFilter;
@@ -452,6 +470,7 @@ export interface Vendor extends BaseContract {
     addProduct(
       _name: PromiseOrValue<string>,
       _price: PromiseOrValue<BigNumberish>,
+      _image: PromiseOrValue<string>,
       _quantity: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -509,6 +528,7 @@ export interface Vendor extends BaseContract {
     addProduct(
       _name: PromiseOrValue<string>,
       _price: PromiseOrValue<BigNumberish>,
+      _image: PromiseOrValue<string>,
       _quantity: PromiseOrValue<BigNumberish>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

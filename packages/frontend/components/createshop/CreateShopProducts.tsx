@@ -37,7 +37,7 @@ export default function CreateShopProducts({
 
 		const image = dataURLtoBlob(images[0].data_url);
 		const imageCID = await client.storeBlob(image);
-		console.log(imageCID);
+		console.log(imageCID, 'imagecid');
 		setIpfsUrl('https://ipfs.io/ipfs/' + imageCID);
 		// const cid = await client.storeBlob(file);
 		// console.log(cid, 'cid');
@@ -57,17 +57,19 @@ export default function CreateShopProducts({
 	};
 	const [productName, setProductName] = useState('');
 	const [productPrice, setProductPrice] = useState('');
-	const [products, setProducts] = useState<{ productName: string; productPrice: string }[]>([]);
+	const [products, setProducts] = useState<{ productName: string; productPrice: string; productImage: string }[]>([]);
 
 	const handleAddProduct = async () => {
 		const price = Number(productPrice);
-		const tx = await vendorContract.addProduct(productName, price, '10');
+		const tx = await vendorContract.addProduct(productName, price, ipfsUrl, '10');
 		const res = await tx.wait();
 		if (res.events) {
+			console.log(res.events[0].args, 'res events');
 			const productName = res.events[0].args[0];
 			//convert product price to eth
 			const productPrice = res.events[0].args[1].toString();
-			setProducts([...products, { productName, productPrice }]);
+			const productImage = res.events[0].args[2];
+			setProducts([...products, { productName, productPrice, productImage }]);
 		}
 	};
 
@@ -79,9 +81,11 @@ export default function CreateShopProducts({
 	const fetchCurrentProducts = async () => {
 		const products = await vendorContract.getProducts();
 		const convertedProducts = products.map((product) => {
+			console.log(product[4], 'product 4');
 			return {
 				productName: product[0],
 				productPrice: product[1].toString(),
+				productImage: product[4],
 			};
 		});
 		console.log(convertedProducts);
@@ -93,6 +97,8 @@ export default function CreateShopProducts({
 		setCreateShopStep(3);
 	};
 
+	console.log(products);
+
 	return (
 		<>
 			<div className="flex flex-col  items-center justify-center pt-10 font-SFPro_Rounded_Bold">
@@ -101,6 +107,7 @@ export default function CreateShopProducts({
 					<div>
 						{products.map((product, index) => (
 							<div key={index} className="flex mt-6 flex-row items-center justify-center">
+								<img src={product.productImage} alt="" className="w-10 h-10 mr-2 rounded-md" />
 								<h1 className="text-2xl">{product.productName} -</h1>
 								<h1 className="text-2xl ml-4">${product.productPrice}</h1>
 							</div>
@@ -165,17 +172,20 @@ export default function CreateShopProducts({
 				</div>
 				<div className="flex flex-row">
 					<button
-						className="mt-8 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:bg-[#DFE6F4] hover:text-black active:opacity-70 md:text-base "
+						className={`mt-8 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:bg-[#DFE6F4] hover:text-black active:opacity-70 md:text-base ${
+							!ipfsUrl && !productName && 'cursor-not-allowed'
+						} `}
+						disabled={!productName && !productPrice && !ipfsUrl}
 						onClick={handleAddProduct}
 					>
 						Add Product
 					</button>
-					{/* <button
+					<button
 						className="mt-8 ml-2 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:bg-[#DFE6F4] hover:text-black active:opacity-70 md:text-base "
 						onClick={fetchCurrentProducts}
 					>
 						Fetch Current Products
-					</button> */}
+					</button>
 					<button
 						className="mt-8 ml-2 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:bg-[#DFE6F4] hover:text-black active:opacity-70 md:text-base "
 						onClick={handleFinishCreation}

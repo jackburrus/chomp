@@ -9,6 +9,7 @@ contract Vendor {
   struct Product {
     string name;
     uint price;
+    string image;
     uint quantity;
     uint id;
   }
@@ -18,6 +19,7 @@ contract Vendor {
   event ProductAdded(
     string name,
     uint price,
+    string image,
     uint quantity,
     uint id
   );
@@ -74,6 +76,7 @@ contract Vendor {
       emit ProductAdded(
         products[shoppingCart.products[i]].name,
         products[shoppingCart.products[i]].price,
+        products[shoppingCart.products[i]].image,
         products[shoppingCart.products[i]].quantity,
         products[shoppingCart.products[i]].id
       );
@@ -91,11 +94,11 @@ contract Vendor {
 
 
   //create a function that adds a product to the list of products
-  function addProduct(string memory _name, uint _price, uint _quantity) public {
+  function addProduct(string memory _name, uint _price, string memory _image, uint _quantity) public {
     totalProducts++;
-    products[totalProducts] = Product(_name, _price, _quantity, totalProducts);
+    products[totalProducts] = Product(_name, _price, _image, _quantity, totalProducts);
 
-    emit ProductAdded(_name, _price, _quantity, totalProducts);
+    emit ProductAdded(_name, _price, _image, _quantity, totalProducts);
   }
 
   //create a function to add multiple products to a checkout cart
