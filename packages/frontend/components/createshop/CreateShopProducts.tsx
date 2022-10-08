@@ -29,7 +29,7 @@ export default function CreateShopProducts({
 	setCreateShopStep: () => void;
 }) {
 	const [images, setImages] = useState([]);
-	const [imageIpfsHash, setImageIpfsHash] = useState('');
+	const [ipfsUrl, setIpfsUrl] = useState('');
 	const maxNumber = 69;
 
 	const handleUploadImage = async () => {
@@ -38,6 +38,7 @@ export default function CreateShopProducts({
 		const image = dataURLtoBlob(images[0].data_url);
 		const imageCID = await client.storeBlob(image);
 		console.log(imageCID);
+		setIpfsUrl('https://ipfs.io/ipfs/' + imageCID);
 		// const cid = await client.storeBlob(file);
 		// console.log(cid, 'cid');
 		// setImageIpfsHash(cid);
