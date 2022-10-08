@@ -9,8 +9,6 @@ export default function ProductCard({ product, contract }) {
 	const allContracts = contracts as any;
 	const vendorABI = allContracts[chainId][0].contracts.Vendor.abi;
 
-	console.log(product.id.toString());
-
 	const { write } = useContractWrite({
 		addressOrName: contract,
 		contractInterface: vendorABI,
@@ -28,11 +26,20 @@ export default function ProductCard({ product, contract }) {
 		console.log(productsInCart, 'in cart');
 	}, [productsInCart]);
 
+	//convert cart to array of numbers
+	const cart = productsInCart?.map((product) => {
+		return product.toString();
+	});
+
+	const isInCart = cart?.includes(product.id.toString());
+
 	return (
 		<button
 			disabled={!write}
 			onClick={() => write?.()}
-			className="h-36 cursor-pointer text-center shadow-md bg-white flex flex-col justify-center items-center w-36  rounded-lg"
+			className={`h-36 cursor-pointer text-center shadow-md bg-white flex flex-col justify-center items-center w-36  rounded-lg ${
+				isInCart && 'border border-orange-500'
+			}`}
 		>
 			<h1 className="max-w-[70%]">{product[0]}</h1>
 			<h3 className="mt-2">${product[1].toString()}</h3>

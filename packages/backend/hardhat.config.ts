@@ -21,7 +21,7 @@ const config: HardhatUserConfig = {
 	networks: {
 		localhost: {
 			chainId: 31337,
-			allowUnlimitedContractSize: true,
+			// allowUnlimitedContractSize: true,
 		},
 
 		/////////

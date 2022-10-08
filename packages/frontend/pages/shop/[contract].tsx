@@ -31,14 +31,38 @@ export default function ShopPage({ contract }: { contract: string }) {
 		functionName: 'getProducts',
 	});
 
-	useEffect(() => {
-		console.log(products);
-	}, [products]);
+	const { data: productsInCart } = useContractRead({
+		addressOrName: contract,
+		contractInterface: vendorABI,
+		functionName: 'getProductsInCart',
+	});
 
 	return (
 		<>
 			<Header />
-			<div className="flex flex-col   items-center justify-center pt-10 font-SFPro_Rounded_Bold">
+			{productsInCart && (
+				<div className="drawer absolute">
+					<input id="my-drawer" type="checkbox" className="drawer-toggle" />
+					<div className="drawer-content">
+						<label htmlFor="my-drawer" className="btn btn-primary drawer-button">
+							Open drawer
+						</label>
+					</div>
+					<div className="drawer-side">
+						<label htmlFor="my-drawer" className="drawer-overlay"></label>
+						<ul className="menu p-4 overflow-y-auto w-80 bg-base-100 text-base-content">
+							<li>
+								<a>Sidebar Item 1</a>
+							</li>
+							<li>
+								<a>Sidebar Item 2</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			)}
+
+			<div className="flex flex-col  items-center justify-center pt-10 font-SFPro_Rounded_Bold">
 				<div className="w-full items-center justify-center flex flex-col ">
 					<h1 className="text-4xl">{vendorName}</h1>
 					<div className="grid grid-cols-4 gap-8 mt-10">
@@ -46,15 +70,6 @@ export default function ShopPage({ contract }: { contract: string }) {
 							return <ProductCard key={index} contract={contract} product={product} />;
 						})}
 					</div>
-					{/* <div>
-						{products.map((product, index) => (
-							<div key={index} className="flex mt-6 flex-row items-center justify-center">
-								<h1 className="text-2xl">{product.productName} -</h1>
-								<h1 className="text-2xl ml-4">${product.productPrice}</h1>
-							</div>
-						))}
-					</div> */}
-					{/* create an input for the shop name with sick styles */}
 				</div>
 			</div>
 		</>
