@@ -47,7 +47,7 @@
           ]
         },
         "Vendor": {
-          "address": "0x68B1D87F95878fE05B998F19b66F4baba5De1aed",
+          "address": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
           "abi": [
             {
               "inputs": [
@@ -140,6 +140,47 @@
                   "internalType": "address",
                   "name": "",
                   "type": "address"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_id",
+                  "type": "uint256"
+                }
+              ],
+              "name": "getCartProductFromListOfProducts",
+              "outputs": [
+                {
+                  "components": [
+                    {
+                      "internalType": "string",
+                      "name": "name",
+                      "type": "string"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "price",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "quantity",
+                      "type": "uint256"
+                    },
+                    {
+                      "internalType": "uint256",
+                      "name": "id",
+                      "type": "uint256"
+                    }
+                  ],
+                  "internalType": "struct Vendor.Product",
+                  "name": "",
+                  "type": "tuple"
                 }
               ],
               "stateMutability": "view",
@@ -353,7 +394,7 @@
           ]
         },
         "VendorFactory": {
-          "address": "0x9A9f2CCfdE556A7E9Ff0848998Aa4a0CFD8863AE",
+          "address": "0x59b670e9fA9D0A427751Af201D676719a970857b",
           "abi": [
             {
               "anonymous": false,

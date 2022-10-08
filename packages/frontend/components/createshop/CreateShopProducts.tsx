@@ -1,5 +1,6 @@
 import { Vendor } from '@/../backend/typechain-types/Vendor';
 import { useState } from 'react';
+import ImageIcon from '../icons/ImageIcon';
 
 export default function CreateShopProducts({
 	contract,
@@ -62,7 +63,7 @@ export default function CreateShopProducts({
 						))}
 					</div>
 					{/* create an input for the shop name with sick styles */}
-					<div>
+					<div className="flex flex-row  items-end">
 						<input
 							className="bg-[#DFE6F4] rounded-md p-2 mt-8 w-[400px]"
 							type="text"
@@ -77,6 +78,9 @@ export default function CreateShopProducts({
 							onChange={(e) => setProductPrice(e.target.value)}
 							placeholder="Price"
 						/>
+						<button className=" ml-4 rounded-md flex items-center justify-center h-10 w-14 bg-[#DFE6F4]">
+							<ImageIcon />
+						</button>
 					</div>
 				</div>
 				<div className="flex flex-row">

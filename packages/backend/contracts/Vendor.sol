@@ -36,6 +36,13 @@ contract Vendor {
     shoppingCart.products.push(_id);
   }
 
+ //get product in cart from list of products
+ function getCartProductFromListOfProducts(uint _id) public view returns (Product memory) {
+   return products[_id];
+ }
+
+
+
   //create a function that removes products from the shopping cart
   function removeProductFromCart(uint _id) public {
     for (uint i = 0; i < shoppingCart.products.length; i++) {
