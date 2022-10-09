@@ -5,7 +5,7 @@
       "chainId": "31337",
       "contracts": {
         "Greeter": {
-          "address": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+          "address": "0x162A433068F51e18b7d13932F27e66a3f99E6890",
           "abi": [
             {
               "inputs": [
@@ -47,7 +47,7 @@
           ]
         },
         "Vendor": {
-          "address": "0x70e0bA845a1A0F2DA3359C97E0285013525FFC49",
+          "address": "0x4C4a2f8c81640e47606d3fd77B353E87Ba015584",
           "abi": [
             {
               "inputs": [
@@ -224,6 +224,19 @@
                 }
               ],
               "name": "ProductPurchased",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "id",
+                  "type": "uint256"
+                }
+              ],
+              "name": "ReceiptMinted",
               "type": "event"
             },
             {
@@ -493,6 +506,25 @@
               "type": "function"
             },
             {
+              "inputs": [
+                {
+                  "internalType": "uint256",
+                  "name": "_tokenId",
+                  "type": "uint256"
+                }
+              ],
+              "name": "getTokenUri",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
+              "type": "function"
+            },
+            {
               "inputs": [],
               "name": "getTotalPrice",
               "outputs": [
@@ -589,63 +621,6 @@
                   "internalType": "address",
                   "name": "",
                   "type": "address"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "tokenId",
-                  "type": "uint256"
-                }
-              ],
-              "name": "pickRandomFirstWord",
-              "outputs": [
-                {
-                  "internalType": "string",
-                  "name": "",
-                  "type": "string"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "tokenId",
-                  "type": "uint256"
-                }
-              ],
-              "name": "pickRandomSecondWord",
-              "outputs": [
-                {
-                  "internalType": "string",
-                  "name": "",
-                  "type": "string"
-                }
-              ],
-              "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "tokenId",
-                  "type": "uint256"
-                }
-              ],
-              "name": "pickRandomThirdWord",
-              "outputs": [
-                {
-                  "internalType": "string",
-                  "name": "",
-                  "type": "string"
                 }
               ],
               "stateMutability": "view",
@@ -882,7 +857,7 @@
           ]
         },
         "VendorFactory": {
-          "address": "0x998abeb3E57409262aE5b751f60747921B33613E",
+          "address": "0x04C89607413713Ec9775E14b954286519d836FEf",
           "abi": [
             {
               "anonymous": false,

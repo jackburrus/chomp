@@ -1,8 +1,10 @@
-pragma solidity 0.8.10;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
+
+import "./Utils.sol";
+import "./SVG.sol";
 
 
 contract Vendor is ERC721URIStorage {
@@ -44,6 +46,10 @@ contract Vendor is ERC721URIStorage {
     uint price,
     string image,
     uint quantity,
+    uint id
+  );
+
+  event ReceiptMinted(
     uint id
   );
 
@@ -134,60 +140,87 @@ contract Vendor is ERC721URIStorage {
     deployer = msg.sender;
   }
 
-    ///this is the svg experiement
-    // Magic given to us by OpenZeppelin to help us keep track of tokenIds.
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
-  // This is our SVG code. All we need to change is the word that's displayed. Everything else stays the same.
-  // So, we make a baseSvg variable here that all our NFTs can use.
-  string baseSvg = "";
-  // I create three arrays, each with their own theme of random words.
-  // Pick some random funny words, names of anime characters, foods you like, whatever!
-  string[] firstWords = ["YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD"];
 
-  string[] secondWords = ["YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD"];
-  string[] thirdWords = ["YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD"];
-  // We need to pass the name of our NFTs token and its symbol.
 
-  // I create a function to randomly pick a word from each array.
-  function pickRandomFirstWord(uint256 tokenId) public view returns (string memory) {
-  // I seed the random generator. More on this in the lesson.
-  uint256 rand = random(string(abi.encodePacked("FIRST_WORD", Strings.toString(tokenId))));
-  // Squash the # between 0 and the length of the array to avoid going out of bounds.
-  rand = rand % firstWords.length;
-  return firstWords[rand];
-  }
-  function pickRandomSecondWord(uint256 tokenId) public view returns (string memory) {
-  uint256 rand = random(string(abi.encodePacked("SECOND_WORD", Strings.toString(tokenId))));
-  rand = rand % secondWords.length;
-  return secondWords[rand];
-  }
-  function pickRandomThirdWord(uint256 tokenId) public view returns (string memory) {
-  uint256 rand = random(string(abi.encodePacked("THIRD_WORD", Strings.toString(tokenId))));
-  rand = rand % thirdWords.length;
-  return thirdWords[rand];
-  }
-  function random(string memory input) internal pure returns (uint256) {
-  return uint256(keccak256(abi.encodePacked(input)));
-  }
+
+
+
   function makeAnEpicNFT() public {
     uint256 newItemId = _tokenIds.current();
-    // We go and randomly grab one word from each of the three arrays.
-    string memory first = pickRandomFirstWord(newItemId);
-    string memory second = pickRandomSecondWord(newItemId);
-    string memory third = pickRandomThirdWord(newItemId);
-    // I concatenate it all together, and then close the <text> and <svg> tags.
-    string memory finalSvg = string(abi.encodePacked(baseSvg, first, second, third, "</text></svg>"));
+
+    string memory finalSvg = string(abi.encodePacked( string.concat(
+                '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" style="background:#ffffff; border-radius:10px;  ">',
+                svg.text(
+                    string.concat(
+                        svg.prop('x', '20'),
+                        svg.prop('y', '40'),
+                        svg.prop('font-size', '22'),
+                        svg.prop('fill', 'black')
+                    ),
+                    string.concat(
+                        svg.cdata('Receipt for order #'),
+                        utils.uint2str(newItemId)
+                    )
+                ),
+                svg.rect(
+                    string.concat(
+                        svg.prop('fill', 'black'),
+                        svg.prop('x', '20'),
+                        svg.prop('y', '50'),
+                        svg.prop('width', utils.uint2str(190)),
+                        svg.prop('height', utils.uint2str(3))
+                    ),
+                    utils.NULL
+                ),
+
+                // renderItems(),
+
+                svg.rect(
+                    string.concat(
+                        svg.prop('fill', 'black'),
+                        svg.prop('x', '20'),
+                        svg.prop('y', '260'),
+                        svg.prop('width', utils.uint2str(190)),
+                        svg.prop('height', utils.uint2str(2))
+                    ),
+                    utils.NULL
+                ),
+                svg.text(
+                    string.concat(
+                        svg.prop('x', '20'),
+                        svg.prop('y', '280'),
+                        svg.prop('font-size', '16'),
+                        svg.prop('fill', 'black')
+                    ),
+                    'Total'
+                ),
+                svg.text(
+                    string.concat(
+                        svg.prop('x', '20'),
+                        svg.prop('y', '300'),
+                        svg.prop('font-size', '16'),
+                        svg.prop('fill', 'black')
+                    ),
+                    '0.000000000000000001 USD'
+                ),
+                '</svg>')));
     console.log("\n--------------------");
     console.log(finalSvg);
     console.log("--------------------\n");
     // Actually mint the NFT to the sender using msg.sender.
     _safeMint(msg.sender, newItemId);
     // Set the NFTs data.
-    _setTokenURI(newItemId, "");
+    _setTokenURI(newItemId, finalSvg);
     console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
     // Increment the counter for when the next NFT is minted.
     _tokenIds.increment();
+    emit ReceiptMinted(newItemId);
+  }
+
+  function getTokenUri (uint256 _tokenId) public view returns (string memory) {
+    return tokenURI(_tokenId);
   }
 
 }

@@ -1,8 +1,10 @@
-import { useContractWrite } from 'wagmi';
+import { useContractEvent, useContractWrite } from 'wagmi';
 import CheckIcon from './icons/CheckIcon';
 import contracts from '@/contracts/hardhat_contracts.json';
 import { NETWORK_ID } from '@/config';
+import { useRouter } from 'next/router';
 export default function ViewReceipt({ contract }: { contract: string }) {
+	const router = useRouter();
 	const chainId = Number(NETWORK_ID);
 	const allContracts = contracts as any;
 	const vendorABI = allContracts[chainId][0].contracts.Vendor.abi;
@@ -10,6 +12,16 @@ export default function ViewReceipt({ contract }: { contract: string }) {
 		addressOrName: contract,
 		contractInterface: vendorABI,
 		functionName: 'makeAnEpicNFT',
+	});
+
+	useContractEvent({
+		addressOrName: contract as string,
+		contractInterface: vendorABI,
+		eventName: 'ReceiptMinted',
+		listener: (event) => {
+			console.log(event, 'receipt event');
+			router.push(`/receipt/${contract}/${event[0].toString()}`);
+		},
 	});
 
 	return (

@@ -15,13 +15,25 @@ const defaultNetwork = 'localhost';
  * @type import('hardhat/config').HardhatUserConfig
  */
 const config: HardhatUserConfig = {
-	solidity: '0.8.10',
+	solidity: {
+		version: '0.8.12',
+		settings: {
+			optimizer: {
+				enabled: true,
+				runs: 200,
+				details: { yul: false },
+			},
+		},
+	},
 	defaultNetwork,
 
 	networks: {
+		hardhat: {
+			allowUnlimitedContractSize: true,
+		},
 		localhost: {
 			chainId: 31337,
-			// allowUnlimitedContractSize: true,
+			allowUnlimitedContractSize: true,
 		},
 
 		/////////
