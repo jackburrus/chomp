@@ -1,6 +1,6 @@
 import Header from '@/components/Header';
 import { NETWORK_ID } from '@/config';
-import { useContract, useSigner, useAccount } from 'wagmi';
+import { useContract, useSigner, useAccount, useContractEvent } from 'wagmi';
 import contracts from '@/contracts/hardhat_contracts.json';
 import { VendorFactory } from '../../backend/typechain-types/VendorFactory';
 import { Vendor } from '../../backend/typechain-types/Vendor';
@@ -33,14 +33,6 @@ export default function CreateShop() {
 		contractInterface: vendorFactoryABI,
 		signerOrProvider: signerData,
 	});
-
-	// const vendorAddress = allContracts[chainId][0].contracts.Vendor.address;
-	// const vendorABI = allContracts[chainId][0].contracts.Vendor.abi;
-	// const vendorContract = useContract<Vendor>({
-	// 	addressOrName: vendorAddress,
-	// 	contractInterface: vendorABI,
-	// 	signerOrProvider: signerData,
-	// });
 
 	const [createShopStep, setCreateShopStep] = useState(0);
 
@@ -90,7 +82,7 @@ export default function CreateShop() {
 					<h1>Step 2</h1>
 				</div>
 			)}
-			<button onClick={handleFetchShops}>fetch all shops</button>
+			{/* <button onClick={handleFetchShops}>fetch all shops</button> */}
 			{/* <button onClick={handleGetShopName}>get shop name</button> */}
 		</>
 	);

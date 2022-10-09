@@ -202,10 +202,12 @@ export interface VendorInterface extends utils.Interface {
 
   events: {
     "ProductAdded(string,uint256,string,uint256,uint256)": EventFragment;
+    "ProductAddedToCart(string,uint256,string,uint256,uint256)": EventFragment;
     "ProductPurchased(string,uint256,string,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ProductAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProductAddedToCart"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ProductPurchased"): EventFragment;
 }
 
@@ -222,6 +224,21 @@ export type ProductAddedEvent = TypedEvent<
 >;
 
 export type ProductAddedEventFilter = TypedEventFilter<ProductAddedEvent>;
+
+export interface ProductAddedToCartEventObject {
+  name: string;
+  price: BigNumber;
+  image: string;
+  quantity: BigNumber;
+  id: BigNumber;
+}
+export type ProductAddedToCartEvent = TypedEvent<
+  [string, BigNumber, string, BigNumber, BigNumber],
+  ProductAddedToCartEventObject
+>;
+
+export type ProductAddedToCartEventFilter =
+  TypedEventFilter<ProductAddedToCartEvent>;
 
 export interface ProductPurchasedEventObject {
   name: string;
@@ -476,6 +493,21 @@ export interface Vendor extends BaseContract {
       quantity?: null,
       id?: null
     ): ProductAddedEventFilter;
+
+    "ProductAddedToCart(string,uint256,string,uint256,uint256)"(
+      name?: null,
+      price?: null,
+      image?: null,
+      quantity?: null,
+      id?: null
+    ): ProductAddedToCartEventFilter;
+    ProductAddedToCart(
+      name?: null,
+      price?: null,
+      image?: null,
+      quantity?: null,
+      id?: null
+    ): ProductAddedToCartEventFilter;
 
     "ProductPurchased(string,uint256,string,uint256,uint256)"(
       name?: null,

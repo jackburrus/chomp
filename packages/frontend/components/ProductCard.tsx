@@ -1,6 +1,6 @@
 import { ProductAddedEvent, Vendor } from '@/../backend/typechain-types/Vendor';
 import { NETWORK_ID } from '@/config';
-import { useContractRead, useContractWrite, useSigner } from 'wagmi';
+import { useContractEvent, useContractRead, useContractWrite, useSigner } from 'wagmi';
 import contracts from '@/contracts/hardhat_contracts.json';
 import { useEffect } from 'react';
 export default function ProductCard({ product, contract }) {
@@ -16,10 +16,19 @@ export default function ProductCard({ product, contract }) {
 		args: [product.id.toString()],
 	});
 
-	const { data: productsInCart } = useContractRead({
+	const { data: productsInCart, refetch } = useContractRead({
 		addressOrName: contract,
 		contractInterface: vendorABI,
 		functionName: 'getProductsInCart',
+	});
+
+	useContractEvent({
+		addressOrName: contract,
+		contractInterface: vendorABI,
+		eventName: 'ProductAddedToCart',
+		listener: (event) => {
+			refetch();
+		},
 	});
 
 	// useEffect(() => {

@@ -11,6 +11,7 @@ import ProductCartCard from '@/components/ProductCartCard';
 import { useQuery } from 'react-query';
 import useETHPrice from '@/hooks/useEthUsdPrice';
 import { ethers } from 'ethers';
+import ViewReceipt from '@/components/ViewReceipt';
 export default function ShopPage({ contract }: { contract: string }) {
 	const chainId = Number(NETWORK_ID);
 	const { data: signerData } = useSigner();
@@ -18,6 +19,7 @@ export default function ShopPage({ contract }: { contract: string }) {
 	const allContracts = contracts as any;
 	const vendorABI = allContracts[chainId][0].contracts.Vendor.abi;
 	const [cartOpen, setCartOpen] = useState(false);
+	const [productPurchased, setProductPurchased] = useState([]);
 	const {
 		data: vendorName,
 		isError,
@@ -46,7 +48,7 @@ export default function ShopPage({ contract }: { contract: string }) {
 		functionName: 'getProductsInCart',
 	});
 
-	const { data: totalPrice } = useContractRead({
+	const { data: totalPrice, refetch: refetchTotalPrice } = useContractRead({
 		addressOrName: contract,
 		contractInterface: vendorABI,
 		functionName: 'getTotalPrice',
@@ -69,47 +71,64 @@ export default function ShopPage({ contract }: { contract: string }) {
 		addressOrName: contract,
 		contractInterface: vendorABI,
 		eventName: 'ProductPurchased',
-		listener: (event) => console.log(event, 'product purchased'),
+		listener: (event) => setProductPurchased(event),
+	});
+
+	useContractEvent({
+		addressOrName: contract,
+		contractInterface: vendorABI,
+		eventName: 'ProductAddedToCart',
+		listener: (event) => {
+			refetchTotalPrice();
+		},
 	});
 
 	return (
 		<div className="relative justify-center">
 			<Header />
 			{productsInCart && cartOpen && (
-				<div className="bg-[#DFE6F4] absolute right-0 w-1/3 h-screen justify-start px-5 ">
-					<div className="flex flex-row items-center mt-10 justify-between ">
-						<div>
-							<h1 className="text-lg font-SFPro_Rounded_Bold ">My Order</h1>
-							<h3 className="text-gray-600 font-SFPro_Rounded_Bold">{productsInCart.length} items</h3>
-						</div>
-						<div onClick={() => setCartOpen(false)} className="cursor-pointer">
-							<CloseIcon />
-						</div>
+				<>
+					<div className="bg-[#DFE6F4] absolute right-0 w-1/3 h-screen justify-start px-5 ">
+						{productPurchased.length > 0 ? (
+							<ViewReceipt />
+						) : (
+							<>
+								<div className="flex flex-row items-center mt-10 justify-between ">
+									<div>
+										<h1 className="text-lg font-SFPro_Rounded_Bold ">My Order</h1>
+										<h3 className="text-gray-600 font-SFPro_Rounded_Bold">{productsInCart.length} items</h3>
+									</div>
+									<div onClick={() => setCartOpen(false)} className="cursor-pointer">
+										<CloseIcon />
+									</div>
+								</div>
+								<div className="mt-8">
+									{productsInCart.map((product, index) => {
+										return <ProductCartCard key={index} contract={contract} product={product} />;
+									})}
+								</div>
+								<div className="flex  justify-between font-SFPro_Rounded_Bold ">
+									<h3>Subtotal</h3>
+									<div>
+										<h3>{totalPrice?.toString()} USD</h3>
+										<h3>{ethereumCartPrice && ethereumCartPrice?.toFixed(4)} Eth </h3>
+									</div>
+								</div>
+								<div className="flex    justify-end">
+									<button
+										disabled={!submitCart}
+										onClick={() =>
+											submitCart?.({ overrides: { value: ethers.utils.parseEther(ethereumCartPrice.toString()) } })
+										}
+										className="mt-4 ml-2 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded-md  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:scale-105  active:opacity-70 md:text-base"
+									>
+										Pay Now
+									</button>
+								</div>
+							</>
+						)}
 					</div>
-					<div className="mt-8">
-						{productsInCart.map((product, index) => {
-							return <ProductCartCard key={index} contract={contract} product={product} />;
-						})}
-					</div>
-					<div className="flex  justify-between font-SFPro_Rounded_Bold ">
-						<h3>Subtotal</h3>
-						<div>
-							<h3>{totalPrice?.toString()} USD</h3>
-							<h3>{ethereumCartPrice && ethereumCartPrice?.toFixed(4)} Eth </h3>
-						</div>
-					</div>
-					<div className="flex    justify-end">
-						<button
-							disabled={!submitCart}
-							onClick={() =>
-								submitCart?.({ overrides: { value: ethers.utils.parseEther(ethereumCartPrice.toString()) } })
-							}
-							className="mt-4 ml-2 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded-md  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:scale-105  active:opacity-70 md:text-base"
-						>
-							Pay Now
-						</button>
-					</div>
-				</div>
+				</>
 			)}
 
 			<div className="flex flex-col  items-center justify-end pt-10 font-SFPro_Rounded_Bold">

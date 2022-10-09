@@ -26,6 +26,15 @@ contract Vendor {
     uint id
   );
 
+  event ProductAddedToCart(
+    string name,
+    uint price,
+    string image,
+    uint quantity,
+    uint id
+  );
+
+
   event ProductPurchased(
     string name,
     uint price,
@@ -46,6 +55,7 @@ contract Vendor {
   //create a functin that adds products to the shopping cart
   function addProductToCart(uint _id) public {
     shoppingCart.products.push(_id);
+    emit ProductAddedToCart(products[_id].name, products[_id].price, products[_id].image, products[_id].quantity, products[_id].id);
   }
 
  //get product in cart from list of products
