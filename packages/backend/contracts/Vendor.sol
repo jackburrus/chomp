@@ -1,5 +1,6 @@
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "hardhat/console.sol";
 
@@ -101,7 +102,6 @@ contract Vendor is ERC721URIStorage {
         products[shoppingCart.products[i]].id
       );
     }
-    delete shoppingCart.products;
   }
 
   function addProduct(string memory _name, uint _price, string memory _image, uint _quantity) public {
@@ -144,11 +144,65 @@ contract Vendor is ERC721URIStorage {
   Counters.Counter private _tokenIds;
 
 
+function renderItems() public view returns (string memory) {
+      //iterate over the shopping cart and render the items
+      string memory items = "";
+      for (uint i = 0; i < shoppingCart.products.length; i++) {
+        //get the product from the list of products
+        Product memory product = getCartProductFromListOfProducts(shoppingCart.products[i]);
+        items = string.concat(
+                items,
+                svg.text(
+                    string.concat(
+                        svg.prop('margin-bottom', '10px'),
+                        svg.prop('x', '20'),
+                        svg.prop('y', utils.uint2str(100 + i * 30)),
+                        svg.prop('font-size', '16'),
+                        svg.prop('fill', 'black')
+
+
+                    ),
+                    string.concat(
+                        product.name,
+                        ' ',
+                        "$",
+                        utils.uint2str(product.price),
+                        ' ',
+                        ' '
+                    )
+                )
+            );
 
 
 
-  function makeAnEpicNFT() public {
+      }
+
+
+      return items;
+
+    }
+
+
+  function mintAReceipt() public {
     uint256 newItemId = _tokenIds.current();
+
+    //get a list of products in the shopping cart
+    uint[] memory productsInCart = getProductsInCart();
+
+    //fetch the items from the list of products
+    Product[] memory items = new Product[](productsInCart.length);
+    for (uint i = 0; i < productsInCart.length; i++) {
+      items[i] = getCartProductFromListOfProducts(productsInCart[i]);
+    }
+
+    console.log(items[0].name, 'items');
+
+   //get the total price of the cart
+    uint totalPrice = getTotalPrice();
+    //convert total price to string
+
+
+
 
     string memory finalSvg = string(abi.encodePacked( string.concat(
                 '<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" style="background:#ffffff; border-radius:10px;  ">',
@@ -175,7 +229,7 @@ contract Vendor is ERC721URIStorage {
                     utils.NULL
                 ),
 
-                // renderItems(),
+                renderItems(),
 
                 svg.rect(
                     string.concat(
@@ -203,7 +257,16 @@ contract Vendor is ERC721URIStorage {
                         svg.prop('font-size', '16'),
                         svg.prop('fill', 'black')
                     ),
-                    '0.000000000000000001 USD'
+                    Strings.toString(totalPrice)
+                ),
+                svg.text(
+                    string.concat(
+                        svg.prop('x', '40'),
+                        svg.prop('y', '300'),
+                        svg.prop('font-size', '16'),
+                        svg.prop('fill', 'black')
+                    ),
+                    "USD"
                 ),
                 '</svg>')));
     console.log("\n--------------------");

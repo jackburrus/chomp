@@ -24,7 +24,7 @@ export default function ReceiptPage() {
 	return (
 		<>
 			<Header />
-			<div className="flex flex-1 border border-orange-500 items-center justify-center mt-10">
+			<div className="flex flex-1  items-center justify-center mt-10">
 				<img src={url} />
 			</div>
 		</>

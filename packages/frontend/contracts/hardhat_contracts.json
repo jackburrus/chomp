@@ -47,7 +47,7 @@
           ]
         },
         "Vendor": {
-          "address": "0x4C4a2f8c81640e47606d3fd77B353E87Ba015584",
+          "address": "0x4EE6eCAD1c2Dae9f525404De8555724e3c35d07B",
           "abi": [
             {
               "inputs": [
@@ -576,7 +576,7 @@
             },
             {
               "inputs": [],
-              "name": "makeAnEpicNFT",
+              "name": "mintAReceipt",
               "outputs": [],
               "stateMutability": "nonpayable",
               "type": "function"
@@ -676,6 +676,19 @@
               "name": "removeProductFromCart",
               "outputs": [],
               "stateMutability": "nonpayable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
+              "name": "renderItems",
+              "outputs": [
+                {
+                  "internalType": "string",
+                  "name": "",
+                  "type": "string"
+                }
+              ],
+              "stateMutability": "view",
               "type": "function"
             },
             {
@@ -857,7 +870,7 @@
           ]
         },
         "VendorFactory": {
-          "address": "0x04C89607413713Ec9775E14b954286519d836FEf",
+          "address": "0x172076E0166D1F9Cc711C77Adf8488051744980C",
           "abi": [
             {
               "anonymous": false,

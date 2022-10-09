@@ -11,7 +11,7 @@ export default function ViewReceipt({ contract }: { contract: string }) {
 	const { write: mintNFT } = useContractWrite({
 		addressOrName: contract,
 		contractInterface: vendorABI,
-		functionName: 'makeAnEpicNFT',
+		functionName: 'mintAReceipt',
 	});
 
 	useContractEvent({
