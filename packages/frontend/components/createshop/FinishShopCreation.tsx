@@ -1,4 +1,7 @@
 import Link from 'next/link';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import QRCode from 'react-qr-code';
 
 export default function FinishShopCreation({ contract }: { contract: string }) {
 	return (
@@ -6,15 +9,14 @@ export default function FinishShopCreation({ contract }: { contract: string }) {
 			<div className="flex flex-col  items-center justify-center pt-10 font-SFPro_Rounded_Bold">
 				<div className="w-full items-center justify-center flex flex-col ">
 					<h1 className="text-4xl">Print Shop Code</h1>
-					{/* <div>
-						{products.map((product, index) => (
-							<div key={index} className="flex mt-6 flex-row items-center justify-center">
-								<h1 className="text-2xl">{product.productName} -</h1>
-								<h1 className="text-2xl ml-4">${product.productPrice}</h1>
-							</div>
-						))}
-					</div> */}
-					{/* create an input for the shop name with sick styles */}
+					<div className="pt-10" style={{ height: 'auto', margin: '0 auto', maxWidth: 500, width: '100%' }}>
+						<QRCode
+							size={256}
+							style={{ height: 'auto', maxWidth: '100%', width: '100%' }}
+							value={`https://chomp-sigma.vercel.app/shop/` + contract}
+							viewBox={`0 0 256 256`}
+						/>
+					</div>
 				</div>
 				<div className="flex flex-row">
 					<Link href={`/shop/${contract}`}>
