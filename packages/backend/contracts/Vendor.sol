@@ -1,7 +1,11 @@
 pragma solidity 0.8.10;
 
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
+import "hardhat/console.sol";
 
-contract Vendor {
+
+contract Vendor is ERC721URIStorage {
   string public vendor_name;
   address public owner;
   address public deployer;
@@ -49,23 +53,17 @@ contract Vendor {
     uint[] products;
   }
 
-  //create a variable to store the shopping cart
   ShoppingCart public shoppingCart;
 
-  //create a functin that adds products to the shopping cart
   function addProductToCart(uint _id) public {
     shoppingCart.products.push(_id);
     emit ProductAddedToCart(products[_id].name, products[_id].price, products[_id].image, products[_id].quantity, products[_id].id);
   }
 
- //get product in cart from list of products
  function getCartProductFromListOfProducts(uint _id) public view returns (Product memory) {
    return products[_id];
  }
 
-
-
-  //create a function that removes products from the shopping cart
   function removeProductFromCart(uint _id) public {
     for (uint i = 0; i < shoppingCart.products.length; i++) {
       if (shoppingCart.products[i] == _id) {
@@ -74,12 +72,10 @@ contract Vendor {
     }
   }
 
-  //create a function that returns the products in the shopping cart
   function getProductsInCart() public view returns (uint[] memory) {
     return shoppingCart.products;
   }
 
-  //create a function that returns the total price of the products in the shopping cart
   function getTotalPrice() public view returns (uint) {
     uint totalPrice = 0;
     for (uint i = 0; i < shoppingCart.products.length; i++) {
@@ -88,7 +84,6 @@ contract Vendor {
     return totalPrice;
   }
 
-  //create a function that sends the total amount of ether to the vendor
   function sendEtherToVendor() public payable {
     payable(owner).transfer(msg.value);
     for (uint i = 0; i < shoppingCart.products.length; i++) {
@@ -100,26 +95,9 @@ contract Vendor {
         products[shoppingCart.products[i]].id
       );
     }
+    delete shoppingCart.products;
   }
 
-  //create a function that accepts the amount of money the customer is paying
-  // function submitPaymentForShoppingCart(uint256 _amount) public payable {
-  //   // require(_amount == getTotalPrice(), "You must pay the exact amount");
-  //   payable(owner).transfer(_amount);
-
-  // }
-
-
-
-
-
-
-
-
-
-
-
-  //create a function that adds a product to the list of products
   function addProduct(string memory _name, uint _price, string memory _image, uint _quantity) public {
     totalProducts++;
     products[totalProducts] = Product(_name, _price, _image, _quantity, totalProducts);
@@ -127,21 +105,13 @@ contract Vendor {
     emit ProductAdded(_name, _price, _image, _quantity, totalProducts);
   }
 
-  //create a function to add multiple products to a checkout cart
-  // function addProductsToCart(uint[] memory _ids) public {
-  //   for (uint i = 0; i < _ids.length; i++) {
-  //     products[_ids[i]].quantity--;
-  //   }
-  // }
 
 
 
-  //create a function that returns the price of a product
   function getPrice(uint _id) public view returns (uint) {
     return products[_id].price;
   }
 
-  //return a list of products
   function getProducts() public view returns (Product[] memory) {
     Product[] memory list_of_products = new Product[](totalProducts);
     for (uint i = 0; i < totalProducts; i++) {
@@ -150,19 +120,74 @@ contract Vendor {
     return list_of_products;
   }
 
-  //create a function that returns the owner of the contract
   function getOwner() public view returns (address) {
     return owner;
   }
 
-  //function to get vendor name
   function getVendorName() public view returns (string memory) {
     return vendor_name;
   }
 
-  constructor(address _owner,  string memory _vendorName) {
+  constructor(address _owner,  string memory _vendorName) ERC721 ("Vendor", "VENDOR") {
     vendor_name = _vendorName;
     owner = _owner;
     deployer = msg.sender;
   }
+
+    ///this is the svg experiement
+    // Magic given to us by OpenZeppelin to help us keep track of tokenIds.
+  using Counters for Counters.Counter;
+  Counters.Counter private _tokenIds;
+  // This is our SVG code. All we need to change is the word that's displayed. Everything else stays the same.
+  // So, we make a baseSvg variable here that all our NFTs can use.
+  string baseSvg = "";
+  // I create three arrays, each with their own theme of random words.
+  // Pick some random funny words, names of anime characters, foods you like, whatever!
+  string[] firstWords = ["YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD"];
+
+  string[] secondWords = ["YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD"];
+  string[] thirdWords = ["YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD", "YOUR_WORD"];
+  // We need to pass the name of our NFTs token and its symbol.
+
+  // I create a function to randomly pick a word from each array.
+  function pickRandomFirstWord(uint256 tokenId) public view returns (string memory) {
+  // I seed the random generator. More on this in the lesson.
+  uint256 rand = random(string(abi.encodePacked("FIRST_WORD", Strings.toString(tokenId))));
+  // Squash the # between 0 and the length of the array to avoid going out of bounds.
+  rand = rand % firstWords.length;
+  return firstWords[rand];
+  }
+  function pickRandomSecondWord(uint256 tokenId) public view returns (string memory) {
+  uint256 rand = random(string(abi.encodePacked("SECOND_WORD", Strings.toString(tokenId))));
+  rand = rand % secondWords.length;
+  return secondWords[rand];
+  }
+  function pickRandomThirdWord(uint256 tokenId) public view returns (string memory) {
+  uint256 rand = random(string(abi.encodePacked("THIRD_WORD", Strings.toString(tokenId))));
+  rand = rand % thirdWords.length;
+  return thirdWords[rand];
+  }
+  function random(string memory input) internal pure returns (uint256) {
+  return uint256(keccak256(abi.encodePacked(input)));
+  }
+  function makeAnEpicNFT() public {
+    uint256 newItemId = _tokenIds.current();
+    // We go and randomly grab one word from each of the three arrays.
+    string memory first = pickRandomFirstWord(newItemId);
+    string memory second = pickRandomSecondWord(newItemId);
+    string memory third = pickRandomThirdWord(newItemId);
+    // I concatenate it all together, and then close the <text> and <svg> tags.
+    string memory finalSvg = string(abi.encodePacked(baseSvg, first, second, third, "</text></svg>"));
+    console.log("\n--------------------");
+    console.log(finalSvg);
+    console.log("--------------------\n");
+    // Actually mint the NFT to the sender using msg.sender.
+    _safeMint(msg.sender, newItemId);
+    // Set the NFTs data.
+    _setTokenURI(newItemId, "");
+    console.log("An NFT w/ ID %s has been minted to %s", newItemId, msg.sender);
+    // Increment the counter for when the next NFT is minted.
+    _tokenIds.increment();
+  }
+
 }

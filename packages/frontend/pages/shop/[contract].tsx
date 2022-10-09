@@ -80,6 +80,7 @@ export default function ShopPage({ contract }: { contract: string }) {
 		eventName: 'ProductAddedToCart',
 		listener: (event) => {
 			refetchTotalPrice();
+			setCartOpen(true);
 		},
 	});
 
@@ -90,7 +91,7 @@ export default function ShopPage({ contract }: { contract: string }) {
 				<>
 					<div className="bg-[#DFE6F4] absolute right-0 w-1/3 h-screen justify-start px-5 ">
 						{productPurchased.length > 0 ? (
-							<ViewReceipt />
+							<ViewReceipt contract={contract} />
 						) : (
 							<>
 								<div className="flex flex-row items-center mt-10 justify-between ">
