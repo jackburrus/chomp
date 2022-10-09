@@ -39,7 +39,7 @@ export default function CreateShopProducts({
 		const imageCID = await client.storeBlob(image);
 		setIpfsUrl('https://ipfs.io/ipfs/' + imageCID);
 		// const cid = await client.storeBlob(file);
-		// console.log(cid, 'cid');
+		console.log(imageCID, 'cid');
 		// setImageIpfsHash(cid);
 	};
 
