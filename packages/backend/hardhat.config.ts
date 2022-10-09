@@ -35,6 +35,19 @@ const config: HardhatUserConfig = {
 			chainId: 31337,
 			allowUnlimitedContractSize: true,
 		},
+		'optimism-goerli': {
+			accounts: [process.env.PRIVATE_KEY],
+			chainId: 420,
+			url: 'https://optimism-goerli.infura.io/v3/59ad6f621b7e47038b438c4ad3f81a02',
+			// companionNetworks: {
+			// 	hub: 'goerli',
+			// },
+		},
+		'polygon-mumbai': {
+			accounts: [process.env.PRIVATE_KEY],
+			chainId: 80001,
+			url: 'https://polygon-mumbai.infura.io/v3/59ad6f621b7e47038b438c4ad3f81a02',
+		},
 
 		/////////
 		// L1 NETWORKS

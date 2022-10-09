@@ -8,7 +8,7 @@ export default function Header() {
 			// style={{ padding: '1rem' }}
 		>
 			<div className="flex font-SFPro_Rounded_Bold text-lg flex-1 ">
-				<Link href={'/'}>
+				<Link href={'/create-shop'}>
 					CHOMP
 					{/* <img className="w-20 cursor-pointer" src="/SelloutLogo.png" /> */}
 				</Link>
@@ -17,9 +17,9 @@ export default function Header() {
 				<div className=" text-lg font-bold font-rounded">
 					<Link href="/create-shop">Create Shop</Link>
 				</div>
-				<div className=" text-lg font-bold font-rounded">
+				{/* <div className=" text-lg font-bold font-rounded">
 					<Link href="/search-shops">Search Shops</Link>
-				</div>
+				</div> */}
 			</div>
 			<div className="flex flex-1 justify-end">
 				<ConnectButton chainStatus={'icon'} accountStatus={'address'} showBalance={false} />

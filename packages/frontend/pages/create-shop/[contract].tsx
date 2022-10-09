@@ -22,7 +22,6 @@ export default function CreateShop({ contract }: { contract: string }) {
 
 	const handleFetchShop = async () => {
 		const shop = await vendorContract.getVendorName();
-		console.log(shop);
 		setShopName(shop);
 	};
 

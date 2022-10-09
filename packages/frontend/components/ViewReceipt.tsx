@@ -19,7 +19,6 @@ export default function ViewReceipt({ contract }: { contract: string }) {
 		contractInterface: vendorABI,
 		eventName: 'ReceiptMinted',
 		listener: (event) => {
-			console.log(event, 'receipt event');
 			router.push(`/receipt/${contract}/${event[0].toString()}`);
 		},
 	});

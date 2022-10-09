@@ -37,7 +37,6 @@ export default function CreateShopProducts({
 
 		const image = dataURLtoBlob(images[0].data_url);
 		const imageCID = await client.storeBlob(image);
-		console.log(imageCID, 'imagecid');
 		setIpfsUrl('https://ipfs.io/ipfs/' + imageCID);
 		// const cid = await client.storeBlob(file);
 		// console.log(cid, 'cid');
@@ -52,7 +51,6 @@ export default function CreateShopProducts({
 
 	const onChange = (imageList, addUpdateIndex) => {
 		// data for submit
-		console.log(imageList, addUpdateIndex);
 		setImages(imageList);
 	};
 	const [productName, setProductName] = useState('');
@@ -76,22 +74,15 @@ export default function CreateShopProducts({
 		setImages([]);
 	};
 
-	const handleGetShopName = async () => {
-		const shopName = await vendorContract.getVendorName();
-		console.log(shopName);
-	};
-
 	const fetchCurrentProducts = async () => {
 		const products = await vendorContract.getProducts();
 		const convertedProducts = products.map((product) => {
-			console.log(product[4], 'product 4');
 			return {
 				productName: product[0],
 				productPrice: product[1].toString(),
 				productImage: product[2],
 			};
 		});
-		console.log(convertedProducts);
 		setProducts(convertedProducts);
 		// setProducts(products);
 	};
@@ -99,8 +90,6 @@ export default function CreateShopProducts({
 	const handleFinishCreation = () => {
 		setCreateShopStep(3);
 	};
-
-	console.log(products);
 
 	return (
 		<>

@@ -23,6 +23,7 @@ export const generateStepPercentage = (step: number) => {
 
 export default function CreateShop() {
 	const chainId = Number(NETWORK_ID);
+	console.log(chainId, 'chainId');
 	const { data: signerData } = useSigner();
 	const { address } = useAccount();
 	const allContracts = contracts as any;
@@ -39,14 +40,19 @@ export default function CreateShop() {
 	const [shopName, setShopName] = useState('');
 	const router = useRouter();
 
+	useContractEvent({
+		addressOrName: vendorFactoryAddress,
+		contractInterface: vendorFactoryABI,
+		eventName: 'VendorCreated',
+		listener: (event) => {
+			router.push(`/create-shop/${event[0]}`);
+		},
+	});
+
 	const handleCreateVendor = async () => {
 		if (address && shopName) {
 			const tx = await vendorFactoryContract.createVendor(address, shopName);
-			const res = await tx.wait();
-			if (res.transactionHash) {
-				router.push(`/create-shop/${res.events[0].args[0]}`);
-				setCreateShopStep(1);
-			}
+			await tx.wait();
 		}
 	};
 
