@@ -46,7 +46,7 @@ export default function ProductCard({ product, contract }) {
 				isInCart && 'border border-orange-500'
 			}`}
 		>
-			<img src={product[2]} className="w-16 h-16 rounded-md mb-2" />
+			<img src={product[2]} className="w-36 h-w-36 rounded-md mb-2" />
 
 			<h1 className="max-w-[70%]">{product[0]}</h1>
 			<h3 className="mt-2">${product[1].toString()}</h3>
