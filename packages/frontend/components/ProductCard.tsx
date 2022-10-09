@@ -22,9 +22,9 @@ export default function ProductCard({ product, contract }) {
 		functionName: 'getProductsInCart',
 	});
 
-	useEffect(() => {
-		console.log(productsInCart, 'in cart');
-	}, [productsInCart]);
+	// useEffect(() => {
+	// 	console.log(productsInCart, 'in cart');
+	// }, [productsInCart]);
 
 	//convert cart to array of numbers
 	const cart = productsInCart?.map((product) => {

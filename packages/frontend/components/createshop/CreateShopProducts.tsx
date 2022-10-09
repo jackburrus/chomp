@@ -71,6 +71,9 @@ export default function CreateShopProducts({
 			const productImage = res.events[0].args[2];
 			setProducts([...products, { productName, productPrice, productImage }]);
 		}
+		setProductName('');
+		setProductPrice('');
+		setImages([]);
 	};
 
 	const handleGetShopName = async () => {
@@ -85,7 +88,7 @@ export default function CreateShopProducts({
 			return {
 				productName: product[0],
 				productPrice: product[1].toString(),
-				productImage: product[4],
+				productImage: product[2],
 			};
 		});
 		console.log(convertedProducts);
@@ -175,7 +178,7 @@ export default function CreateShopProducts({
 						className={`mt-8 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:bg-[#DFE6F4] hover:text-black active:opacity-70 md:text-base ${
 							!ipfsUrl && !productName && 'cursor-not-allowed'
 						} `}
-						disabled={!productName && !productPrice && !ipfsUrl}
+						disabled={!ipfsUrl.length}
 						onClick={handleAddProduct}
 					>
 						Add Product

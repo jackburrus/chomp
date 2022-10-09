@@ -1,6 +1,6 @@
 import { Vendor } from '@/../backend/typechain-types/Vendor';
 import Header from '@/components/Header';
-import { useContract, useContractRead, useSigner } from 'wagmi';
+import { useContract, useContractEvent, useContractRead, useContractWrite, useSigner } from 'wagmi';
 import contracts from '@/contracts/hardhat_contracts.json';
 import { NETWORK_ID } from '@/config';
 import useVendorName from '@/hooks/useVendorName';
@@ -8,9 +8,13 @@ import { useEffect, useState } from 'react';
 import ProductCard from '@/components/ProductCard';
 import CloseIcon from '@/components/icons/CloseIcon';
 import ProductCartCard from '@/components/ProductCartCard';
+import { useQuery } from 'react-query';
+import useETHPrice from '@/hooks/useEthUsdPrice';
+import { ethers } from 'ethers';
 export default function ShopPage({ contract }: { contract: string }) {
 	const chainId = Number(NETWORK_ID);
 	const { data: signerData } = useSigner();
+	const [totalEthPrice, setTotalEthPrice] = useState(0);
 	const allContracts = contracts as any;
 	const vendorABI = allContracts[chainId][0].contracts.Vendor.abi;
 	const [cartOpen, setCartOpen] = useState(false);
@@ -23,6 +27,9 @@ export default function ShopPage({ contract }: { contract: string }) {
 		contractInterface: vendorABI,
 		functionName: 'getVendorName',
 	});
+
+	const { data: ethUSD } = useETHPrice();
+
 	const {
 		data: products,
 		// isError,
@@ -45,9 +52,25 @@ export default function ShopPage({ contract }: { contract: string }) {
 		functionName: 'getTotalPrice',
 	});
 
-	useEffect(() => {
-		console.log(totalPrice);
-	}, [totalPrice]);
+	const ethereumCartPrice = ethUSD ? totalPrice / ethUSD : totalPrice / 1316;
+	const weiCartPrice = ethereumCartPrice * 1000000000000000000;
+	const decimals = 18;
+	// Note: this is a string, e.g. user input
+
+	const { write: submitCart, data: submitCartData } = useContractWrite({
+		addressOrName: contract,
+		contractInterface: vendorABI,
+		functionName: 'sendEtherToVendor',
+		//convert total eth price to wei
+		// overrides: { value: ethers.utils.parseEther(ethereumCartPrice.toString()) },
+	});
+
+	useContractEvent({
+		addressOrName: contract,
+		contractInterface: vendorABI,
+		eventName: 'ProductPurchased',
+		listener: (event) => console.log(event, 'product purchased'),
+	});
 
 	return (
 		<div className="relative justify-center">
@@ -68,7 +91,24 @@ export default function ShopPage({ contract }: { contract: string }) {
 							return <ProductCartCard key={index} contract={contract} product={product} />;
 						})}
 					</div>
-					<div>{totalPrice?.toString()}</div>
+					<div className="flex  justify-between font-SFPro_Rounded_Bold ">
+						<h3>Subtotal</h3>
+						<div>
+							<h3>{totalPrice?.toString()} USD</h3>
+							<h3>{ethereumCartPrice && ethereumCartPrice?.toFixed(4)} Eth </h3>
+						</div>
+					</div>
+					<div className="flex    justify-end">
+						<button
+							disabled={!submitCart}
+							onClick={() =>
+								submitCart?.({ overrides: { value: ethers.utils.parseEther(ethereumCartPrice.toString()) } })
+							}
+							className="mt-4 ml-2 flex h-12 cursor-pointer items-center justify-center whitespace-nowrap rounded-md  bg-[#283247] pl-8 pr-8 text-sm text-white transition-all duration-300 hover:scale-105  active:opacity-70 md:text-base"
+						>
+							Pay Now
+						</button>
+					</div>
 				</div>
 			)}
 

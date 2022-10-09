@@ -1,0 +1,38 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Vendor.sol": {
+      "content": "// This is used as a template to initialize state variables\ncontract Vendor {\n  string public vendor_name;\n  address public owner;\n  address public deployer;\n  uint totalProducts;\n\n  //create a struct for products\n  struct Product {\n    string name;\n    uint price;\n    string image;\n    uint quantity;\n    uint id;\n  }\n\n  mapping(uint => Product) public products;\n\n  event ProductAdded(\n    string name,\n    uint price,\n    string image,\n    uint quantity,\n    uint id\n  );\n\n  //create a shopping cart to add products to\n  struct ShoppingCart {\n    uint id;\n    uint[] products;\n  }\n\n  //create a variable to store the shopping cart\n  ShoppingCart public shoppingCart;\n\n  //create a functin that adds products to the shopping cart\n  function addProductToCart(uint _id) public {\n    shoppingCart.products.push(_id);\n  }\n\n //get product in cart from list of products\n function getCartProductFromListOfProducts(uint _id) public view returns (Product memory) {\n   return products[_id];\n }\n\n\n\n  //create a function that removes products from the shopping cart\n  function removeProductFromCart(uint _id) public {\n    for (uint i = 0; i < shoppingCart.products.length; i++) {\n      if (shoppingCart.products[i] == _id) {\n        delete shoppingCart.products[i];\n      }\n    }\n  }\n\n  //create a function that returns the products in the shopping cart\n  function getProductsInCart() public view returns (uint[] memory) {\n    return shoppingCart.products;\n  }\n\n  //create a function that returns the total price of the products in the shopping cart\n  function getTotalPrice() public view returns (uint) {\n    uint totalPrice = 0;\n    for (uint i = 0; i < shoppingCart.products.length; i++) {\n      totalPrice += products[shoppingCart.products[i]].price;\n    }\n    return totalPrice;\n  }\n\n  //create a function that accepts the amount of money the customer is paying\n  function submitPaymentForShoppingCart(uint _amount) public payable {\n    // require(_amount == getTotalPrice(), \"You must pay the exact amount\");\n    payable(owner).transfer(_amount);\n    for (uint i = 0; i < shoppingCart.products.length; i++) {\n      emit ProductAdded(\n        products[shoppingCart.products[i]].name,\n        products[shoppingCart.products[i]].price,\n        products[shoppingCart.products[i]].image,\n        products[shoppingCart.products[i]].quantity,\n        products[shoppingCart.products[i]].id\n      );\n    }\n  }\n\n\n\n\n\n\n\n\n\n\n\n  //create a function that adds a product to the list of products\n  function addProduct(string memory _name, uint _price, string memory _image, uint _quantity) public {\n    totalProducts++;\n    products[totalProducts] = Product(_name, _price, _image, _quantity, totalProducts);\n\n    emit ProductAdded(_name, _price, _image, _quantity, totalProducts);\n  }\n\n  //create a function to add multiple products to a checkout cart\n  // function addProductsToCart(uint[] memory _ids) public {\n  //   for (uint i = 0; i < _ids.length; i++) {\n  //     products[_ids[i]].quantity--;\n  //   }\n  // }\n\n\n\n  //create a function that returns the price of a product\n  function getPrice(uint _id) public view returns (uint) {\n    return products[_id].price;\n  }\n\n  //return a list of products\n  function getProducts() public view returns (Product[] memory) {\n    Product[] memory list_of_products = new Product[](totalProducts);\n    for (uint i = 0; i < totalProducts; i++) {\n      list_of_products[i] = products[i + 1];\n    }\n    return list_of_products;\n  }\n\n  //create a function that returns the owner of the contract\n  function getOwner() public view returns (address) {\n    return owner;\n  }\n\n  //function to get vendor name\n  function getVendorName() public view returns (string memory) {\n    return vendor_name;\n  }\n\n  constructor(address _owner,  string memory _vendorName) {\n    vendor_name = _vendorName;\n    owner = _owner;\n    deployer = msg.sender;\n  }\n}"
+    },
+    "contracts/VendorFactory.sol": {
+      "content": "\nimport \"./Vendor.sol\";\n\ncontract VendorFactory {\n  // instantiate Bank contract\n  Vendor vendor;\n  //keep track of created Bank addresses in array\n  Vendor[] public list_of_vendors;\n\n  //VendorCreated event\n  event VendorCreated(address vendor_address, address owner, string vendor_name);\n\n  // function arguments are passed to the constructor of the new created contract\n  function createVendor(address _owner, string memory _vendorName) external {\n    vendor = new Vendor(_owner, _vendorName);\n    list_of_vendors.push(vendor);\n    //emit an event with the address of the new contract\n    emit VendorCreated(address(vendor), _owner, _vendorName);\n  }\n\n  //create a function that returns all the vendors\n  function getVendors() external view returns (Vendor[] memory) {\n    return list_of_vendors;\n  }\n}"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": false,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}

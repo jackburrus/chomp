@@ -67,8 +67,8 @@ export interface VendorInterface extends utils.Interface {
     "owner()": FunctionFragment;
     "products(uint256)": FunctionFragment;
     "removeProductFromCart(uint256)": FunctionFragment;
+    "sendEtherToVendor()": FunctionFragment;
     "shoppingCart()": FunctionFragment;
-    "submitPaymentForShoppingCart(uint256)": FunctionFragment;
     "vendor_name()": FunctionFragment;
   };
 
@@ -87,8 +87,8 @@ export interface VendorInterface extends utils.Interface {
       | "owner"
       | "products"
       | "removeProductFromCart"
+      | "sendEtherToVendor"
       | "shoppingCart"
-      | "submitPaymentForShoppingCart"
       | "vendor_name"
   ): FunctionFragment;
 
@@ -141,12 +141,12 @@ export interface VendorInterface extends utils.Interface {
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
-    functionFragment: "shoppingCart",
+    functionFragment: "sendEtherToVendor",
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "submitPaymentForShoppingCart",
-    values: [PromiseOrValue<BigNumberish>]
+    functionFragment: "shoppingCart",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "vendor_name",
@@ -188,11 +188,11 @@ export interface VendorInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "shoppingCart",
+    functionFragment: "sendEtherToVendor",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "submitPaymentForShoppingCart",
+    functionFragment: "shoppingCart",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -202,9 +202,11 @@ export interface VendorInterface extends utils.Interface {
 
   events: {
     "ProductAdded(string,uint256,string,uint256,uint256)": EventFragment;
+    "ProductPurchased(string,uint256,string,uint256,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "ProductAdded"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "ProductPurchased"): EventFragment;
 }
 
 export interface ProductAddedEventObject {
@@ -220,6 +222,21 @@ export type ProductAddedEvent = TypedEvent<
 >;
 
 export type ProductAddedEventFilter = TypedEventFilter<ProductAddedEvent>;
+
+export interface ProductPurchasedEventObject {
+  name: string;
+  price: BigNumber;
+  image: string;
+  quantity: BigNumber;
+  id: BigNumber;
+}
+export type ProductPurchasedEvent = TypedEvent<
+  [string, BigNumber, string, BigNumber, BigNumber],
+  ProductPurchasedEventObject
+>;
+
+export type ProductPurchasedEventFilter =
+  TypedEventFilter<ProductPurchasedEvent>;
 
 export interface Vendor extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -305,14 +322,13 @@ export interface Vendor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    sendEtherToVendor(
+      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
     shoppingCart(
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { id: BigNumber }>;
-
-    submitPaymentForShoppingCart(
-      _amount: PromiseOrValue<BigNumberish>,
-      overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
 
     vendor_name(overrides?: CallOverrides): Promise<[string]>;
   };
@@ -372,12 +388,11 @@ export interface Vendor extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
-
-  submitPaymentForShoppingCart(
-    _amount: PromiseOrValue<BigNumberish>,
+  sendEtherToVendor(
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
+
+  shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
 
   vendor_name(overrides?: CallOverrides): Promise<string>;
 
@@ -439,12 +454,9 @@ export interface Vendor extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
+    sendEtherToVendor(overrides?: CallOverrides): Promise<void>;
 
-    submitPaymentForShoppingCart(
-      _amount: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
 
     vendor_name(overrides?: CallOverrides): Promise<string>;
   };
@@ -464,6 +476,21 @@ export interface Vendor extends BaseContract {
       quantity?: null,
       id?: null
     ): ProductAddedEventFilter;
+
+    "ProductPurchased(string,uint256,string,uint256,uint256)"(
+      name?: null,
+      price?: null,
+      image?: null,
+      quantity?: null,
+      id?: null
+    ): ProductPurchasedEventFilter;
+    ProductPurchased(
+      name?: null,
+      price?: null,
+      image?: null,
+      quantity?: null,
+      id?: null
+    ): ProductPurchasedEventFilter;
   };
 
   estimateGas: {
@@ -514,12 +541,11 @@ export interface Vendor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
-
-    submitPaymentForShoppingCart(
-      _amount: PromiseOrValue<BigNumberish>,
+    sendEtherToVendor(
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
+
+    shoppingCart(overrides?: CallOverrides): Promise<BigNumber>;
 
     vendor_name(overrides?: CallOverrides): Promise<BigNumber>;
   };
@@ -572,12 +598,11 @@ export interface Vendor extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    shoppingCart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    submitPaymentForShoppingCart(
-      _amount: PromiseOrValue<BigNumberish>,
+    sendEtherToVendor(
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    shoppingCart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     vendor_name(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };

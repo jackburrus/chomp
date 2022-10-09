@@ -47,7 +47,7 @@
           ]
         },
         "Vendor": {
-          "address": "0x7a2088a1bFc9d81c55368AE168C2C02570cB814F",
+          "address": "0x851356ae760d987E095750cCeb3bC6014560891C",
           "abi": [
             {
               "inputs": [
@@ -100,6 +100,43 @@
                 }
               ],
               "name": "ProductAdded",
+              "type": "event"
+            },
+            {
+              "anonymous": false,
+              "inputs": [
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "name",
+                  "type": "string"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "price",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "string",
+                  "name": "image",
+                  "type": "string"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "quantity",
+                  "type": "uint256"
+                },
+                {
+                  "indexed": false,
+                  "internalType": "uint256",
+                  "name": "id",
+                  "type": "uint256"
+                }
+              ],
+              "name": "ProductPurchased",
               "type": "event"
             },
             {
@@ -380,6 +417,13 @@
             },
             {
               "inputs": [],
+              "name": "sendEtherToVendor",
+              "outputs": [],
+              "stateMutability": "payable",
+              "type": "function"
+            },
+            {
+              "inputs": [],
               "name": "shoppingCart",
               "outputs": [
                 {
@@ -389,19 +433,6 @@
                 }
               ],
               "stateMutability": "view",
-              "type": "function"
-            },
-            {
-              "inputs": [
-                {
-                  "internalType": "uint256",
-                  "name": "_amount",
-                  "type": "uint256"
-                }
-              ],
-              "name": "submitPaymentForShoppingCart",
-              "outputs": [],
-              "stateMutability": "payable",
               "type": "function"
             },
             {
@@ -420,7 +451,7 @@
           ]
         },
         "VendorFactory": {
-          "address": "0x4A679253410272dd5232B3Ff7cF5dbB88f295319",
+          "address": "0x1613beB3B2C4f22Ee086B2b38C1476A3cE7f78E8",
           "abi": [
             {
               "anonymous": false,

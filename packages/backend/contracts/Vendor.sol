@@ -1,4 +1,6 @@
-// This is used as a template to initialize state variables
+pragma solidity 0.8.10;
+
+
 contract Vendor {
   string public vendor_name;
   address public owner;
@@ -17,6 +19,14 @@ contract Vendor {
   mapping(uint => Product) public products;
 
   event ProductAdded(
+    string name,
+    uint price,
+    string image,
+    uint quantity,
+    uint id
+  );
+
+  event ProductPurchased(
     string name,
     uint price,
     string image,
@@ -68,12 +78,11 @@ contract Vendor {
     return totalPrice;
   }
 
-  //create a function that accepts the amount of money the customer is paying
-  function submitPaymentForShoppingCart(uint _amount) public payable {
-    require(_amount == getTotalPrice(), "You must pay the exact amount");
-    payable(owner).transfer(_amount);
+  //create a function that sends the total amount of ether to the vendor
+  function sendEtherToVendor() public payable {
+    payable(owner).transfer(msg.value);
     for (uint i = 0; i < shoppingCart.products.length; i++) {
-      emit ProductAdded(
+      emit ProductPurchased(
         products[shoppingCart.products[i]].name,
         products[shoppingCart.products[i]].price,
         products[shoppingCart.products[i]].image,
@@ -82,6 +91,13 @@ contract Vendor {
       );
     }
   }
+
+  //create a function that accepts the amount of money the customer is paying
+  // function submitPaymentForShoppingCart(uint256 _amount) public payable {
+  //   // require(_amount == getTotalPrice(), "You must pay the exact amount");
+  //   payable(owner).transfer(_amount);
+
+  // }
 
 
 
