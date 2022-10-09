@@ -8,9 +8,9 @@ export default function Header() {
 			className="flex flex-row  mt-4 pb-4 items-center border-b border-gray-300 mx-10"
 			// style={{ padding: '1rem' }}
 		>
-			<div className="flex font-SFPro_Rounded_Bold text-lg flex-1 ">
-				<Link href={'/create-shop'}>
-					<Image src={'/Logo.png'} width={40} height={40} />
+			<div className="flex font-SFPro_Rounded_Bold  text-lg flex-1 ">
+				<Link href={'/'}>
+					<Image className="cursor-pointer" src={'/Logo.png'} width={40} height={40} />
 					{/* <img className="w-20 cursor-pointer" src="/SelloutLogo.png" /> */}
 				</Link>
 			</div>

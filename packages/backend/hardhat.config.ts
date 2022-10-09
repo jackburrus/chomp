@@ -38,7 +38,7 @@ const config: HardhatUserConfig = {
 		'optimism-goerli': {
 			accounts: [process.env.PRIVATE_KEY],
 			chainId: 420,
-			url: 'https://optimism-goerli.infura.io/v3/59ad6f621b7e47038b438c4ad3f81a02',
+			url: `https://optimism-goerli.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
 			// companionNetworks: {
 			// 	hub: 'goerli',
 			// },
@@ -46,7 +46,7 @@ const config: HardhatUserConfig = {
 		'polygon-mumbai': {
 			accounts: [process.env.PRIVATE_KEY],
 			chainId: 80001,
-			url: 'https://polygon-mumbai.infura.io/v3/59ad6f621b7e47038b438c4ad3f81a02',
+			url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_PROJECT_ID}`,
 		},
 
 		/////////
